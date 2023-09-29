@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
+import 'package:tdc_coach_user/presentation/register/register_screen.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +69,10 @@ class LoginPage extends StatelessWidget {
                   children: [
                     TextField(
                       decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.mail,
+                          color: AppColor.primary,
+                        ),
                         suffixIcon: Icon(
                           Icons.check,
                           color: Colors.grey,
@@ -83,6 +88,10 @@ class LoginPage extends StatelessWidget {
                     ),
                     TextField(
                       decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: AppColor.primary,
+                        ),
                         suffixIcon: Icon(
                           Icons.visibility_off,
                           color: Colors.grey,
@@ -114,7 +123,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     Container(
                       height: 55,
-                      width: 300,
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         gradient: const LinearGradient(
@@ -150,11 +159,21 @@ class LoginPage extends StatelessWidget {
                         const SizedBox(
                           width: 5,
                         ),
-                        const Text(
-                          AppString.signUp,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColor.primary,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            AppString.signUp,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.primary,
+                            ),
                           ),
                         ),
                       ],

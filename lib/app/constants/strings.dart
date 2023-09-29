@@ -9,4 +9,6 @@ class AppString {
   static const String forgotPassword = 'Quên mật khẩu?';
   //register
   static const String signUp = 'Đăng ký';
+  static const String createYourAccount = 'Tạo tài khoản';
+  static const String yourHaveAccount = 'Bạn đã có tài khoản';
 }
