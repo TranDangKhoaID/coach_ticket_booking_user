@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "251488811477",
+    "project_id": "tdc-coach",
+    "storage_bucket": "tdc-coach.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251488811477:android:a92e34c0e5011e853ee55c",
+        "android_client_info": {
+          "package_name": "com.example.tdc_coach_user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX681YNh810FinQEp7pqsD-3UOcV35RTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
