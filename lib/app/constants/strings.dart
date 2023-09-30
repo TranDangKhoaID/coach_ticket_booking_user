@@ -7,6 +7,7 @@ class AppString {
   static const String welcome = "Chào mừng đến với TDC Coach";
   static const String notARemenber = 'Bạn chưa có tài khoản?';
   static const String forgotPassword = 'Quên mật khẩu?';
+  static const String loading = 'Đang tải...';
   //register
   static const String signUp = 'Đăng ký';
   static const String createYourAccount = 'Tạo tài khoản';

@@ -3,7 +3,8 @@ import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  final Function()? onTap;
+  const RegisterScreen({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -208,11 +209,14 @@ class RegisterScreen extends StatelessWidget {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Text(
-                            AppString.signIn,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.primary,
+                          GestureDetector(
+                            onTap: onTap,
+                            child: const Text(
+                              AppString.signIn,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColor.primary,
+                              ),
                             ),
                           ),
                         ],
