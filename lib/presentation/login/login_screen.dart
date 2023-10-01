@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/presentation/login/component/forgot_password_button.dart';
 import 'package:tdc_coach_user/presentation/login/component/login_button.dart';
@@ -12,17 +10,13 @@ import 'package:tdc_coach_user/presentation/login/component/not_a_remember.dart'
 import 'package:tdc_coach_user/presentation/login/cubit/login_cubit.dart';
 import 'package:tdc_coach_user/presentation/login/cubit/login_state.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   final Function()? onTap;
-  const LoginScreen({super.key, required this.onTap});
+  LoginScreen({super.key, required this.onTap});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   //text editing controller
   final emailTextController = TextEditingController();
+
   final passwordTextController = TextEditingController();
 
   @override
@@ -40,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               EasyLoading.dismiss();
               EasyLoading.showError(
                 state.errorMessage,
-                duration: const Duration(seconds: 10),
+                duration: const Duration(seconds: 5),
                 dismissOnTap: true,
               );
             }
@@ -86,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 20,
                           ),
                           NotARemenber(
-                            onTap: widget.onTap,
+                            onTap: onTap,
                           ),
                         ],
                       ),
