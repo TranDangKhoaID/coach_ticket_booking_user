@@ -20,7 +20,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           vertical: 20,
         ),
         child: GNav(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(15),
           backgroundColor: AppColor.white,
           color: Colors.black,
           activeColor: AppColor.white,

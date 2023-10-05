@@ -11,4 +11,6 @@ class FireBaseConstant {
   //strings
   static const customers = 'customers';
   static const fullNameCustomer = 'fullName';
+  static const phoneCustomer = 'phone';
+  static const emailCustomer = 'email';
 }

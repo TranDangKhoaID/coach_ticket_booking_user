@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/constants/size_constants.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
+import 'package:tdc_coach_user/app/storage/app_shared.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,12 +15,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //
-  final Future<FirebaseApp> _fApp = Firebase.initializeApp();
+  //text
+  String fullName = AppPreferences.instance.getFullName() ?? "Khách Hàng";
   FirebaseAuth auth = FireBaseConstant.auth;
-  String titleName = '';
   void signOut(BuildContext context) {
+    AppPreferences.instance.logout();
     FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Chỉ cho phép chế độ màn hình dọc
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // Trả lại chế độ màn hình mặc định khi thoát màn hình này (có thể cần)
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
   }
 
   @override
@@ -29,18 +51,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         backgroundColor: AppColor.primary,
-        title: FutureBuilder(
-          future: _fApp,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Text('Lỗi dữ liệu');
-            } else if (snapshot.hasData) {
-              return appBarTitle();
-            } else {
-              return const Text(AppString.loading);
-            }
-          },
-        ),
+        title: appBarTitle(),
         actions: [
           IconButton(
             onPressed: () => signOut(context),
@@ -62,16 +73,16 @@ class _HomePageState extends State<HomePage> {
                   boxShadow: const [
                     BoxShadow(
                       //color: Color(0xFFe8e8e8),
-                      blurRadius: 1.0,
+                      blurRadius: 2.0,
                       offset: Offset(0, 0.5),
                     ),
                     BoxShadow(
                       color: Colors.white,
-                      offset: Offset(-1, 0),
+                      offset: Offset(0.5, 0),
                     ),
                     BoxShadow(
                       color: Colors.white,
-                      offset: Offset(1, 0),
+                      offset: Offset(0.5, 0),
                     ),
                   ],
                 ),
@@ -80,14 +91,16 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       flex: 2,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.only(left: 20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Ví của bạn',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: 15,
+                                color: Colors.grey,
                               ),
                             ),
                             Divider(
@@ -100,6 +113,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 20,
                                 color: AppColor.primary,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -131,6 +145,7 @@ class _HomePageState extends State<HomePage> {
                                 'Nạp tiền',
                                 style: TextStyle(
                                   color: AppColor.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -147,8 +162,197 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               flex: 2,
-              child: Container(
-                color: Colors.yellow,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 150,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            top: 0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Điểm đi',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 14,
+                                      ),
+                                      Expanded(
+                                        child: SizedBox(
+                                          height: 50,
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              'Chọn điểm đi',
+                                              style:
+                                                  TextStyle(color: Colors.grey),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Điểm đến',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 14,
+                                      ),
+                                      Expanded(
+                                        child: SizedBox(
+                                          height: 50,
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              'Chọn điểm đến',
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 16,
+                            bottom: 16,
+                            top: 16,
+                            child: Center(
+                              child: CircleAvatar(
+                                radius: 32,
+                                backgroundColor: AppColor.primary,
+                                foregroundColor: AppColor.white,
+                                child: Icon(Icons.sync),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Date',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  '1.10.2023',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Returning',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  'Set date',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      decoration: BoxDecoration(
+                        color: AppColor.primary,
+                        borderRadius: BorderRadius.circular(48),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.search),
+                          Text(
+                            "Tìm chuyến",
+                            style: TextStyle(
+                              color: AppColor.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],
@@ -158,18 +362,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget appBarTitle() {
-    DatabaseReference _ref = FireBaseConstant.database
-        .child(FireBaseConstant.customers)
-        .child(auth.currentUser!.uid)
-        .child(FireBaseConstant.fullNameCustomer);
-    //listen to fire base
-    _ref.onValue.listen(
-      (event) {
-        setState(() {
-          titleName = event.snapshot.value.toString();
-        });
-      },
-    );
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -197,7 +389,7 @@ class _HomePageState extends State<HomePage> {
               AppString.hello,
               style: TextStyle(fontSize: 15),
             ),
-            Text(titleName),
+            Text(fullName),
           ],
         )
       ],
