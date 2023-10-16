@@ -1,11 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
-import 'package:tdc_coach_user/app/constants/size_constants.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
+import 'package:tdc_coach_user/domain/model/trip.dart';
+import 'package:tdc_coach_user/presentation/home_page/component/button_search_trip.dart';
+import 'package:tdc_coach_user/presentation/home_page/component/icon_positioned.dart';
+import 'package:tdc_coach_user/presentation/home_page/component/select_date_widget.dart';
+import 'package:tdc_coach_user/presentation/home_page/component/select_destination_location.dart';
+import 'package:tdc_coach_user/presentation/home_page/component/select_departure_location.dart';
+import 'package:tdc_coach_user/presentation/home_page/component/top_up_widget.dart';
+import 'package:tdc_coach_user/presentation/list_trip.dart/list_trip_screen.dart';
+import 'package:tdc_coach_user/presentation/list_trip.dart/trips_data.dart';
+import 'package:tdc_coach_user/presentation/location/location_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,11 +27,78 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //text
   String fullName = AppPreferences.instance.getFullName() ?? "Khách Hàng";
+  String? selectedDeparture; // Giá trị ban đầu
+  String? selectedDestination;
   FirebaseAuth auth = FireBaseConstant.auth;
+  String selectedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+  // Tạo một danh sách mới để lưu trữ chuyến đi đã lọc
+  List<Trip> filteredTrips = [];
+  bool isDisable = true;
+
+  //đăng xuất
   void signOut(BuildContext context) {
     AppPreferences.instance.logout();
     FirebaseAuth.instance.signOut();
   }
+
+  Future<void> _navigateToStartLocation() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LocationScreen(),
+      ),
+    );
+    if (result != null) {
+      setState(() {
+        selectedDeparture = result;
+      });
+    }
+    if (selectedDeparture != null && selectedDestination != null) {
+      setState(() {
+        isDisable = false;
+      });
+    } else {
+      setState(() {
+        isDisable = true;
+      });
+    }
+  }
+
+  Future<void> _navigateToDestinationLocation() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LocationScreen(),
+      ),
+    );
+    if (result != null) {
+      setState(() {
+        selectedDestination = result;
+      });
+    }
+    if (selectedDeparture != null && selectedDestination != null) {
+      setState(() {
+        isDisable = false;
+      });
+    } else {
+      setState(() {
+        isDisable = true;
+      });
+    }
+  }
+
+  // //lọc chuyến đã chọn
+  // void filterTrips() {
+  //   filteredTrips.clear(); // Xóa danh sách cũ
+  //   // Lặp qua danh sách chuyến đi gốc và kiểm tra các điều kiện
+  //   for (Trip trip in tripsData) {
+  //     if (trip.departureLocation.name == selectedDeparture &&
+  //         trip.destinationLocation.name == selectedDestination &&
+  //         trip.departureDate == selectedDate) {
+  //       filteredTrips.add(trip); // Thêm chuyến đi phù hợp vào danh sách lọc
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {
@@ -50,6 +127,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: AppColor.primary,
         title: appBarTitle(),
         actions: [
@@ -59,304 +137,180 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
-                    BoxShadow(
-                      //color: Color(0xFFe8e8e8),
-                      blurRadius: 2.0,
-                      offset: Offset(0, 0.5),
-                    ),
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(0.5, 0),
-                    ),
-                    BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(0.5, 0),
-                    ),
-                  ],
+      body: Stack(
+        children: [
+          Container(
+            height: 100,
+            decoration: const BoxDecoration(
+              color: AppColor.primary,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TopUpWidget(
+                  onTap: () {},
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Ví của bạn',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.grey,
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                top: 0,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SelectDepartureLocation(
+                                      selectLocation: selectedDeparture,
+                                      onTap: _navigateToStartLocation,
+                                    ),
+                                    SelectDestinationLocation(
+                                      selectLocation: selectedDestination,
+                                      onTap: _navigateToDestinationLocation,
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            Divider(
-                              color: Colors.black, // Màu của đường ngang
-                              thickness: 2, // Độ dày của đường ngang
-                              height: heightDivider,
-                            ),
-                            Text(
-                              '1.000.000.000 VND',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: AppColor.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                              const IconPositioned(),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.attach_money_outlined,
-                            color: AppColor.primary,
-                            size: sizeIconNapTien,
-                          ),
-                          const SizedBox(
-                            height: heightSizeBox,
-                          ),
-                          Container(
-                            width: widthContainerNapTien,
-                            height: heightContainerNapTien,
-                            decoration: BoxDecoration(
-                              color: AppColor.primary,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'Nạp tiền',
-                                style: TextStyle(
-                                  color: AppColor.white,
-                                  fontWeight: FontWeight.bold,
+                        selectDateWidget(context),
+                        // SelectDateWidget(
+                        //   selectedDate: selectedDate,
+                        //   context: context,
+                        // ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ButtonSearchTrip(
+                          isDisable: isDisable,
+                          onTap: () {
+                            //filterTrips();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ListTripScreen(
+                                  filterDepartureDate: selectedDate,
+                                  filterDepartureLocation: selectedDeparture,
+                                  filterDestinationLocation:
+                                      selectedDestination,
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              flex: 2,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 150,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            top: 0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Điểm đi',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 14,
-                                      ),
-                                      Expanded(
-                                        child: SizedBox(
-                                          height: 50,
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              'Chọn điểm đi',
-                                              style:
-                                                  TextStyle(color: Colors.grey),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Điểm đến',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 14,
-                                      ),
-                                      Expanded(
-                                        child: SizedBox(
-                                          height: 50,
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              'Chọn điểm đến',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            right: 16,
-                            bottom: 16,
-                            top: 16,
-                            child: Center(
-                              child: CircleAvatar(
-                                radius: 32,
-                                backgroundColor: AppColor.primary,
-                                foregroundColor: AppColor.white,
-                                child: Icon(Icons.sync),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 24),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Date',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  '1.10.2023',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Returning',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  'Set date',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 24),
-                      decoration: BoxDecoration(
-                        color: AppColor.primary,
-                        borderRadius: BorderRadius.circular(48),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.search),
-                          Text(
-                            "Tìm chuyến",
-                            style: TextStyle(
-                              color: AppColor.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding selectDateWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 25),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Date',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  selectedDate,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Returning',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2100),
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          selectedDate = DateFormat('dd/MM/yyyy').format(value);
+                        });
+                      }
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColor.primary,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: const Text(
+                      'Set date',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
