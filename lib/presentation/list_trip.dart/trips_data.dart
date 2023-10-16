@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/domain/model/car.dart';
 import 'package:tdc_coach_user/domain/model/location.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';

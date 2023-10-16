@@ -9,12 +9,10 @@ import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/button_search_trip.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/icon_positioned.dart';
-import 'package:tdc_coach_user/presentation/home_page/component/select_date_widget.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/select_destination_location.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/select_departure_location.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/top_up_widget.dart';
 import 'package:tdc_coach_user/presentation/list_trip.dart/list_trip_screen.dart';
-import 'package:tdc_coach_user/presentation/list_trip.dart/trips_data.dart';
 import 'package:tdc_coach_user/presentation/location/location_screen.dart';
 
 class HomePage extends StatefulWidget {
