@@ -6,9 +6,13 @@ import 'package:tdc_coach_user/presentation/select_seat/select_seat.dart';
 
 class TripItem extends StatelessWidget {
   final Trip trip;
+  final String carName;
+  final void Function()? onTap;
   const TripItem({
     super.key,
     required this.trip,
+    required this.carName,
+    required this.onTap,
   });
 
   @override
@@ -68,14 +72,7 @@ class TripItem extends StatelessWidget {
                 ],
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SelectSeat(),
-                    ),
-                  );
-                },
+                onTap: onTap,
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   decoration: BoxDecoration(
@@ -102,7 +99,7 @@ class TripItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          trip.car!,
+                          carName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,

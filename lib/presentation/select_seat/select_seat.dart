@@ -1,8 +1,16 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
+import 'package:tdc_coach_user/domain/model/seat.dart';
+import 'package:tdc_coach_user/domain/model/trip.dart';
+import 'package:tdc_coach_user/presentation/select_seat/component/seat_component.dart';
 
 class SelectSeat extends StatefulWidget {
-  const SelectSeat({super.key});
+  final Trip trip;
+  const SelectSeat({
+    super.key,
+    required this.trip,
+  });
 
   @override
   State<SelectSeat> createState() => _SelectSeatState();
@@ -10,37 +18,16 @@ class SelectSeat extends StatefulWidget {
 
 class _SelectSeatState extends State<SelectSeat> {
   //
-  Map<String, Color> seatColors = {
-    'A01': AppColor.trong,
-    'A02': AppColor.trong,
-    'A03': AppColor.daMua,
-    'A04': AppColor.trong,
-    'A05': AppColor.daMua,
-    'A06': AppColor.trong,
-    'A07': AppColor.daMua,
-    'A08': AppColor.trong,
-    'A09': AppColor.trong,
-    'A10': AppColor.daMua,
-    'A11': AppColor.trong,
-    'A12': AppColor.daMua,
-    'A13': AppColor.trong,
-    'A14': AppColor.daMua,
-  };
-  int selectedSeatCount = 0; // Đếm số ghế đã chọn
-  void toggleSeatColor(String seat) {
-    if (selectedSeatCount < 5 || seatColors[seat] == AppColor.dangChon) {
-      setState(() {
-        if (seatColors[seat] == AppColor.trong) {
-          seatColors[seat] = AppColor.dangChon;
-          selectedSeatCount++;
-        } else {
-          seatColors[seat] = AppColor.trong;
-          selectedSeatCount--;
-        }
-      });
-    } else {
-      print('Quá 5 lần lỗi vl boy');
-    }
+  late DatabaseReference database =
+      FirebaseDatabase.instance.ref().child('seats').child(widget.trip.carId);
+  int selectedCount = 0;
+  //Seat seat = Seat(id: 'seat1', name: 'A01', status: 0);
+  //
+  bool isOccupied = true;
+  Seat seatChoose = Seat.empty();
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -50,9 +37,10 @@ class _SelectSeatState extends State<SelectSeat> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: AppColor.primary,
-        title: Text('Chọn Ghế'),
+        title: Text(widget.trip.carId),
       ),
       body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,108 +60,66 @@ class _SelectSeatState extends State<SelectSeat> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _GeneralSeatComponet(
-                          title: 'A01',
-                          color: seatColors['A01']!,
-                          onTap: () => toggleSeatColor('A01'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A02',
-                          color: seatColors['A02']!,
-                          onTap: () => toggleSeatColor('A02'),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _GeneralSeatComponet(
-                          title: 'A03',
-                          color: seatColors['A03']!,
-                          onTap: () => toggleSeatColor('A03'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A04',
-                          color: seatColors['A04']!,
-                          onTap: () => toggleSeatColor('A04'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A05',
-                          color: seatColors['A05']!,
-                          onTap: () => toggleSeatColor('A05'),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _GeneralSeatComponet(
-                          title: 'A06',
-                          color: seatColors['A06']!,
-                          onTap: () => toggleSeatColor('A06'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A07',
-                          color: seatColors['A07']!,
-                          onTap: () => toggleSeatColor('A07'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A08',
-                          color: seatColors['A08']!,
-                          onTap: () => toggleSeatColor('A08'),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _GeneralSeatComponet(
-                          title: 'A09',
-                          color: seatColors['A09']!,
-                          onTap: () => toggleSeatColor('A09'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A010',
-                          color: seatColors['A10']!,
-                          onTap: () => toggleSeatColor('A10'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A011',
-                          color: seatColors['A11']!,
-                          onTap: () => toggleSeatColor('A11'),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _GeneralSeatComponet(
-                          title: 'A12',
-                          color: seatColors['A12']!,
-                          onTap: () => toggleSeatColor('A12'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A13',
-                          color: seatColors['A13']!,
-                          onTap: () => toggleSeatColor('A13'),
-                        ),
-                        _GeneralSeatComponet(
-                          title: 'A14',
-                          color: seatColors['A14']!,
-                          onTap: () => toggleSeatColor('A14'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              child: StreamBuilder(
+                stream: database.onValue,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    //
+                    Map<dynamic, dynamic>? seatData =
+                        snapshot.data!.snapshot.value as Map<dynamic, dynamic>?;
+                    if (seatData == null) {
+                      return const Center(child: Text('No data available'));
+                    }
+                    List<Seat> seats = [];
+                    seatData.forEach((key, value) {
+                      Map<dynamic, dynamic> seatInfo =
+                          value as Map<dynamic, dynamic>;
+                      String id = seatInfo['id'];
+                      String name = seatInfo['name'];
+                      int status = seatInfo['status'];
+                      String userId = seatInfo['userId'];
+                      Seat seat = Seat(
+                        id: id,
+                        name: name,
+                        status: status,
+                        userId: userId,
+                      );
+                      seats.add(seat);
+                    });
+                    //
+                    return GridView.builder(
+                      itemCount: snapshot.data!.snapshot.children.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 45,
+                      ),
+                      itemBuilder: (context, index) {
+                        final seat = seats[index];
+                        Color color = seat.getStatus == 0
+                            ? AppColor.trong
+                            : AppColor.daMua;
+                        return GeneralSeatComponet(
+                          seat: seat,
+                          color: color,
+                          onTap: () async {
+                            if (seat.getStatus == 0 && isOccupied) {
+                              seatChoose = seat;
+                              setState(() {
+                                selectedCount++;
+                                isOccupied = false;
+                              });
+                              print(isOccupied);
+                            }
+                          },
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
           ),
@@ -240,11 +186,11 @@ class _SelectSeatState extends State<SelectSeat> {
         child: BottomAppBar(
           elevation: 64,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(
               children: [
                 Text(
-                  "Seat: $selectedSeatCount/5",
+                  "Số lượng: $selectedCount/1",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -254,63 +200,30 @@ class _SelectSeatState extends State<SelectSeat> {
                   width: 24,
                 ),
                 Expanded(
-                  child: Container(
-                    height: 54,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Confirm",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.white,
+                  child: GestureDetector(
+                    onTap: () {
+                      print(seatChoose.getName);
+                    },
+                    child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                        color: AppColor.primary,
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Tiếp tục",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GeneralSeatComponet extends StatelessWidget {
-  final String title;
-  final Color color;
-  final void Function()? onTap;
-
-  const _GeneralSeatComponet({
-    super.key,
-    required this.title,
-    required this.color,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.all(16),
-        height: 48,
-        width: 48,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
             ),
           ),
         ),

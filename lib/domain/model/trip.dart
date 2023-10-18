@@ -10,7 +10,7 @@ class Trip {
   final String destinationTime;
   final int price;
   final String driverId;
-  final String car;
+  final String carId;
 
   Trip({
     required this.id,
@@ -21,7 +21,7 @@ class Trip {
     required this.destinationTime,
     required this.price,
     required this.driverId,
-    required this.car,
+    required this.carId,
   });
   //
   factory Trip.fromJson(Map<String, dynamic> json) {
@@ -34,7 +34,7 @@ class Trip {
       destinationTime: json['destinationTime'],
       price: json['price'],
       driverId: json['driverId'],
-      car: json['car'],
+      carId: json['carId'],
     );
   }
 }
