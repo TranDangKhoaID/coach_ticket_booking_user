@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
+import 'package:tdc_coach_user/presentation/payment_detail_ticket/payment_detail_ticket.dart';
 import 'package:tdc_coach_user/presentation/select_seat/component/seat_component.dart';
 
 class SelectSeat extends StatefulWidget {
@@ -23,8 +24,12 @@ class _SelectSeatState extends State<SelectSeat> {
   int selectedCount = 0;
   //Seat seat = Seat(id: 'seat1', name: 'A01', status: 0);
   //
-  bool isOccupied = true;
   Seat seatChoose = Seat.empty();
+  bool isOccupied = false;
+  Color getColorForSeat(Seat seat) {
+    return seat.getStatus == 0 ? AppColor.trong : AppColor.daMua;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -99,20 +104,17 @@ class _SelectSeatState extends State<SelectSeat> {
                       ),
                       itemBuilder: (context, index) {
                         final seat = seats[index];
-                        Color color = seat.getStatus == 0
-                            ? AppColor.trong
-                            : AppColor.daMua;
                         return GeneralSeatComponet(
                           seat: seat,
-                          color: color,
-                          onTap: () async {
-                            if (seat.getStatus == 0 && isOccupied) {
-                              seatChoose = seat;
+                          isOccupied: isOccupied,
+                          onTap: () {
+                            if (!isOccupied) {
                               setState(() {
+                                isOccupied = true;
                                 selectedCount++;
-                                isOccupied = false;
                               });
-                              print(isOccupied);
+                              seatChoose = seat;
+                              print(seatChoose.getName);
                             }
                           },
                         );
@@ -201,13 +203,25 @@ class _SelectSeatState extends State<SelectSeat> {
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {
-                      print(seatChoose.getName);
-                    },
+                    onTap: selectedCount == 0
+                        ? null
+                        : () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PayMentDetailTicket(
+                                  trip: widget.trip,
+                                  seat: seatChoose,
+                                ),
+                              ),
+                            );
+                          },
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
-                        color: AppColor.primary,
+                        color: selectedCount == 0
+                            ? Colors.grey[300]
+                            : AppColor.primary,
                         borderRadius: BorderRadius.circular(32),
                       ),
                       child: Center(
