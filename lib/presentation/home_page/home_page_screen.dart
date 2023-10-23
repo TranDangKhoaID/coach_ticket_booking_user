@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   String? selectedDeparture; // Giá trị ban đầu
   String? selectedDestination;
   FirebaseAuth auth = FireBaseConstant.auth;
+  final DatabaseReference database = FirebaseDatabase.instance.ref();
   String selectedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
   // Tạo một danh sách mới để lưu trữ chuyến đi đã lọc
   //List<Trip> filteredTrips = [];
@@ -142,6 +144,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 TopUpWidget(
+                  value: 1000,
                   onTap: () {},
                 ),
                 const SizedBox(

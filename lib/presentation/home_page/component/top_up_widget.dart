@@ -4,9 +4,11 @@ import 'package:tdc_coach_user/app/manager/color_manager.dart';
 
 class TopUpWidget extends StatelessWidget {
   final void Function()? onTap;
+  final int value;
   const TopUpWidget({
     super.key,
     required this.onTap,
+    required this.value,
   });
 
   @override
@@ -56,7 +58,7 @@ class TopUpWidget extends StatelessWidget {
                       height: heightDivider,
                     ),
                     Text(
-                      '0 đ',
+                      '$value đ',
                       style: const TextStyle(
                         fontSize: 20,
                         color: AppColor.primary,

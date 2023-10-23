@@ -2,7 +2,6 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
-import 'package:tdc_coach_user/presentation/select_seat/select_seat.dart';
 
 class TripItem extends StatelessWidget {
   final Trip trip;
