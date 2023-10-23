@@ -16,7 +16,6 @@ class LoginScreen extends StatelessWidget {
 
   //text editing controller
   final emailTextController = TextEditingController();
-
   final passwordTextController = TextEditingController();
 
   @override
@@ -57,32 +56,34 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 18, right: 18),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LoginText(
-                            email: emailTextController,
-                            password: passwordTextController,
-                          ),
-                          const ForgotPasswordButton(),
-                          const SizedBox(
-                            height: 45,
-                          ),
-                          LoginButton(
-                            onTap: () {
-                              final email = emailTextController.text;
-                              final password = passwordTextController.text;
-                              BlocProvider.of<LoginCubit>(context)
-                                  .signIn(email, password);
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          NotARemenber(
-                            onTap: onTap,
-                          ),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            LoginText(
+                              email: emailTextController,
+                              password: passwordTextController,
+                            ),
+                            const ForgotPasswordButton(),
+                            const SizedBox(
+                              height: 45,
+                            ),
+                            LoginButton(
+                              onTap: () {
+                                final email = emailTextController.text;
+                                final password = passwordTextController.text;
+                                BlocProvider.of<LoginCubit>(context)
+                                    .signIn(email, password);
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            NotARemenber(
+                              onTap: onTap,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

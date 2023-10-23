@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/constants/size_constants.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 
-class TopUpWidget extends StatelessWidget {
+class MoneyWidget extends StatelessWidget {
   final void Function()? onTap;
   final int value;
-  const TopUpWidget({
+  const MoneyWidget({
     super.key,
     required this.onTap,
     required this.value,
   });
-
   @override
   Widget build(BuildContext context) {
     return Expanded(

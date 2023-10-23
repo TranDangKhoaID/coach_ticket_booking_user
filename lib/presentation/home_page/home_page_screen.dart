@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,9 +12,10 @@ import 'package:tdc_coach_user/presentation/home_page/component/button_search_tr
 import 'package:tdc_coach_user/presentation/home_page/component/icon_positioned.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/select_destination_location.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/select_departure_location.dart';
-import 'package:tdc_coach_user/presentation/home_page/component/top_up_widget.dart';
+import 'package:tdc_coach_user/presentation/home_page/component/money_widget.dart';
 import 'package:tdc_coach_user/presentation/list_trip.dart/list_trip_screen.dart';
 import 'package:tdc_coach_user/presentation/location/location_screen.dart';
+import 'package:tdc_coach_user/presentation/top_up/top_up_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,7 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //text
   String fullName = AppPreferences.instance.getFullName() ?? "Khách Hàng";
-  int wallet = AppPreferences.instance.getWallet() ?? 0;
+  int? wallet;
   String? formattedWallet;
 
   String? selectedDeparture; // Giá trị ban đầu
@@ -143,9 +145,16 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                TopUpWidget(
-                  value: 1000,
-                  onTap: () {},
+                MoneyWidget(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TopUpScreen(),
+                      ),
+                    );
+                  },
+                  value: 9000,
                 ),
                 const SizedBox(
                   height: 10,
