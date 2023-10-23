@@ -4,7 +4,10 @@ import 'package:tdc_coach_user/app/manager/color_manager.dart';
 
 class TopUpWidget extends StatelessWidget {
   final void Function()? onTap;
-  const TopUpWidget({super.key, required this.onTap});
+  const TopUpWidget({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class TopUpWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Ví của bạn',
                       style: TextStyle(
                         fontSize: 15,
@@ -53,8 +56,8 @@ class TopUpWidget extends StatelessWidget {
                       height: heightDivider,
                     ),
                     Text(
-                      '1.000.000.000 VND',
-                      style: TextStyle(
+                      '0 đ',
+                      style: const TextStyle(
                         fontSize: 20,
                         color: AppColor.primary,
                         fontWeight: FontWeight.bold,

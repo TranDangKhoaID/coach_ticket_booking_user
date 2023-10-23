@@ -6,7 +6,6 @@ import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
-import 'package:tdc_coach_user/domain/model/trip.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/button_search_trip.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/icon_positioned.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/select_destination_location.dart';
@@ -25,12 +24,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //text
   String fullName = AppPreferences.instance.getFullName() ?? "Khách Hàng";
+  int wallet = AppPreferences.instance.getWallet() ?? 0;
+  String? formattedWallet;
+
   String? selectedDeparture; // Giá trị ban đầu
   String? selectedDestination;
   FirebaseAuth auth = FireBaseConstant.auth;
   String selectedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
   // Tạo một danh sách mới để lưu trữ chuyến đi đã lọc
-  List<Trip> filteredTrips = [];
+  //List<Trip> filteredTrips = [];
   bool isDisable = true;
 
   //đăng xuất
@@ -43,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LocationScreen(),
+        builder: (context) => const LocationScreen(),
       ),
     );
     if (result != null) {
@@ -66,7 +68,7 @@ class _HomePageState extends State<HomePage> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LocationScreen(),
+        builder: (context) => const LocationScreen(),
       ),
     );
     if (result != null) {
@@ -84,19 +86,6 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
-
-  // //lọc chuyến đã chọn
-  // void filterTrips() {
-  //   filteredTrips.clear(); // Xóa danh sách cũ
-  //   // Lặp qua danh sách chuyến đi gốc và kiểm tra các điều kiện
-  //   for (Trip trip in tripsData) {
-  //     if (trip.departureLocation.name == selectedDeparture &&
-  //         trip.destinationLocation.name == selectedDestination &&
-  //         trip.departureDate == selectedDate) {
-  //       filteredTrips.add(trip); // Thêm chuyến đi phù hợp vào danh sách lọc
-  //     }
-  //   }
-  // }
 
   @override
   void initState() {

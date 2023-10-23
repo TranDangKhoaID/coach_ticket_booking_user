@@ -1,10 +1,17 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
+import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
 
-class PayMentDetailTicket extends StatelessWidget {
+class PayMentDetailTicket extends StatefulWidget {
   final Trip trip;
   final Seat seat;
   const PayMentDetailTicket({
@@ -14,7 +21,105 @@ class PayMentDetailTicket extends StatelessWidget {
   });
 
   @override
+  State<PayMentDetailTicket> createState() => _PayMentDetailTicketState();
+}
+
+class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
+  //firebase
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final DatabaseReference database = FirebaseDatabase.instance.ref();
+  String dateNow = DateFormat('HH:mm dd/MM/yyyy').format(DateTime.now());
+  //infor trip
+  String? tripId;
+  String? tripIdFirebase;
+  String? seatId;
+  String? seatName;
+  int? seatCode;
+  String? departureLocation;
+  String? destinationLocation;
+  String? departureDate;
+  String? departureTime;
+  int? price;
+  String? formattedPrice;
+  //infor user
+  String? userId;
+  String fullName = AppPreferences.instance.getFullName()!;
+  String phone = AppPreferences.instance.getPhone()!;
+  String email = AppPreferences.instance.getEmail()!;
+  int? wallet;
+
+  //general booking id
+
+  String generateRandomBookingId() {
+    final random = Random();
+    const maxNumber = 9999999;
+    const minNumber = 1000000;
+    final randomNumber = minNumber + random.nextInt(maxNumber - minNumber);
+    return 'booking$randomNumber';
+  }
+
+  //payment ticket
+  void addBooking({
+    required String userId,
+    required String tripId,
+    required String seatId,
+    required String seatName,
+    required int seatCode,
+    required int price,
+    required String departureLocation,
+    required String destinationLocation,
+    required String departureDate,
+    required String departureTime,
+    required int status,
+  }) async {
+    try {
+      String bookingId = generateRandomBookingId();
+      final booking = Booking(
+        id: bookingId,
+        userId: userId,
+        tripId: tripId,
+        seatId: seatId,
+        seatName: seatName,
+        seatCode: seatCode,
+        price: price,
+        departureLocation: departureLocation,
+        destinationLocation: destinationLocation,
+        departureDate: departureDate,
+        departureTime: departureTime,
+        status: status,
+        createdAt: dateNow,
+      );
+      await database
+          .child('booking')
+          .child(userId)
+          .child(tripId)
+          .set(booking.toJson());
+      print('Thêm thành công');
+    } on FirebaseAuthException catch (e) {
+      print('Lỗi $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tripId = widget.trip.id;
+    seatId = widget.seat.getId;
+    seatName = widget.seat.getName;
+    seatCode = widget.seat.getCode;
+    userId = _auth.currentUser!.uid;
+    departureLocation = widget.trip.departureLocation;
+    destinationLocation = widget.trip.destinationLocation;
+    departureDate = widget.trip.departureDate;
+    departureTime = widget.trip.departureTime;
+    price = widget.trip.price;
+    formattedPrice =
+        NumberFormat.currency(locale: 'vi', symbol: '').format(price);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    getWalletFirebase();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -58,7 +163,7 @@ class PayMentDetailTicket extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        AppPreferences.instance.getFullName() ?? 'Khách Hàng',
+                        fullName,
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -80,7 +185,7 @@ class PayMentDetailTicket extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        AppPreferences.instance.getPhone() ?? 'Lỗi',
+                        phone,
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -102,7 +207,7 @@ class PayMentDetailTicket extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        AppPreferences.instance.getEmail() ?? 'Lỗi',
+                        email,
                         style: TextStyle(
                           fontSize: 15,
                         ),
@@ -147,14 +252,14 @@ class PayMentDetailTicket extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            trip.departureLocation,
+                            departureLocation ?? '',
                             style: TextStyle(
                               fontSize: 16,
                             ),
                           ),
                           Icon(Icons.arrow_right),
                           Text(
-                            trip.destinationLocation,
+                            destinationLocation ?? '',
                             style: TextStyle(
                               fontSize: 16,
                             ),
@@ -170,7 +275,7 @@ class PayMentDetailTicket extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Thời gian',
+                        departureDate ?? '',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -178,7 +283,7 @@ class PayMentDetailTicket extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        trip.departureDate,
+                        widget.trip.departureDate,
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -200,7 +305,7 @@ class PayMentDetailTicket extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        seat.getName,
+                        widget.seat.getName,
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -222,7 +327,7 @@ class PayMentDetailTicket extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        trip.price.toString(),
+                        '$formattedPrice đ',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.green[700],
@@ -261,7 +366,7 @@ class PayMentDetailTicket extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          trip.price.toString(),
+                          '$formattedPrice đ',
                           style: TextStyle(
                             fontSize: 17,
                           ),
@@ -271,24 +376,7 @@ class PayMentDetailTicket extends StatelessWidget {
                     SizedBox(
                       height: 16,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          'Phí thanh toán',
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          '0 đ',
-                          style: TextStyle(
-                            fontSize: 17,
-                          ),
-                        ),
-                      ],
-                    ),
+                    walletWidget(),
                     const Divider(
                       color: Colors.grey,
                     ),
@@ -296,7 +384,7 @@ class PayMentDetailTicket extends StatelessWidget {
                       children: [
                         Expanded(
                             child: Text(
-                          trip.price.toString(),
+                          'Thanh toán mặc định với ví',
                           style: TextStyle(
                             fontSize: 17,
                             color: Colors.grey[600],
@@ -304,7 +392,7 @@ class PayMentDetailTicket extends StatelessWidget {
                         )),
                         Spacer(),
                         Text(
-                          '190000 đ',
+                          '$formattedPrice đ',
                           style: TextStyle(
                             fontSize: 17,
                           ),
@@ -327,7 +415,25 @@ class PayMentDetailTicket extends StatelessWidget {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        if (wallet! >= price!) {
+                          addBooking(
+                            userId: userId!,
+                            tripId: tripId!,
+                            seatId: seatId!,
+                            seatName: seatName!,
+                            seatCode: seatCode!,
+                            price: price!,
+                            departureLocation: departureLocation!,
+                            destinationLocation: destinationLocation!,
+                            departureDate: departureDate!,
+                            departureTime: departureTime!,
+                            status: 0,
+                          );
+                        } else {
+                          print('Thanh toán thất bại');
+                        }
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppColor.primary,
@@ -352,6 +458,49 @@ class PayMentDetailTicket extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void getWalletFirebase() {
+    database
+        .child(FireBaseConstant.customers)
+        .child(userId!)
+        .child('wallet')
+        .onValue
+        .listen((event) {
+      wallet = event.snapshot.value as int;
+    });
+  }
+
+  void getTripIdFirebase() {
+    database
+        .child('booking')
+        .child(userId!)
+        .child('wallet')
+        .onValue
+        .listen((event) {
+      wallet = event.snapshot.value as int;
+    });
+  }
+
+  Widget walletWidget() {
+    return Row(
+      children: [
+        Text(
+          'Số tiền trong ví',
+          style: TextStyle(
+            fontSize: 17,
+            color: Colors.grey[600],
+          ),
+        ),
+        Spacer(),
+        Text(
+          '0 đ',
+          style: TextStyle(
+            fontSize: 17,
+          ),
+        ),
+      ],
     );
   }
 }

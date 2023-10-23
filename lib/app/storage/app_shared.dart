@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageKey {
@@ -5,6 +7,7 @@ class StorageKey {
   static const prefsKeyEmail = "PREFS_KEY_EMAIL";
   static const prefsKeyPhone = "PREFS_KEY_PHONE";
   static const prefsKeyUserID = "PREFS_KEY_UID";
+  static const prefsKeyWallet = "PREFS_KEY_WALLET";
 }
 
 class AppShared {
@@ -53,6 +56,14 @@ class AppPreferences {
 
   String? getUserID() {
     return AppShared.share?.getString(StorageKey.prefsKeyUserID);
+  }
+
+  Future<void> saveWallet(int wallet) async {
+    AppShared.share?.setInt(StorageKey.prefsKeyWallet, wallet);
+  }
+
+  int? getWallet() {
+    return AppShared.share?.getInt(StorageKey.prefsKeyWallet);
   }
 
   Future<void> logout() async {

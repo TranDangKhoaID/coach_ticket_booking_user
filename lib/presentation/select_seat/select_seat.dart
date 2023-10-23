@@ -26,8 +26,16 @@ class _SelectSeatState extends State<SelectSeat> {
   //
   Seat seatChoose = Seat.empty();
   bool isOccupied = false;
-  Color getColorForSeat(Seat seat) {
-    return seat.getStatus == 0 ? AppColor.trong : AppColor.daMua;
+
+  void selectSeat(Seat seat) {
+    if (seat.getStatus == 0 && !isOccupied) {
+      setState(() {
+        isOccupied = true;
+        selectedCount++;
+      });
+      seatChoose = seat;
+    }
+    print(seat.getIsOccupied);
   }
 
   @override
@@ -83,13 +91,16 @@ class _SelectSeatState extends State<SelectSeat> {
                           value as Map<dynamic, dynamic>;
                       String id = seatInfo['id'];
                       String name = seatInfo['name'];
+                      int code = seatInfo['code'];
                       int status = seatInfo['status'];
-                      String userId = seatInfo['userId'];
+                      String userPhone = seatInfo['userPhone'];
                       Seat seat = Seat(
                         id: id,
                         name: name,
+                        code: code,
                         status: status,
-                        userId: userId,
+                        userPhone: userPhone,
+                        isOccupied: false,
                       );
                       seats.add(seat);
                     });
@@ -106,17 +117,7 @@ class _SelectSeatState extends State<SelectSeat> {
                         final seat = seats[index];
                         return GeneralSeatComponet(
                           seat: seat,
-                          isOccupied: isOccupied,
-                          onTap: () {
-                            if (!isOccupied) {
-                              setState(() {
-                                isOccupied = true;
-                                selectedCount++;
-                              });
-                              seatChoose = seat;
-                              print(seatChoose.getName);
-                            }
-                          },
+                          onTap: () => selectSeat(seat),
                         );
                       },
                     );

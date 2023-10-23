@@ -42,12 +42,14 @@ class LoginCubit extends Cubit<LoginState> {
               customerData[FireBaseConstant.fullNameCustomer] as String;
           String phone = customerData[FireBaseConstant.phoneCustomer] as String;
           String email = customerData[FireBaseConstant.emailCustomer] as String;
+          int wallet = customerData[FireBaseConstant.walletCustomer] as int;
 
           // Lưu thông tin vào local
           AppPreferences.instance.saveFullName(fullName);
           AppPreferences.instance.savePhone(phone);
           AppPreferences.instance.saveUserID(uid);
           AppPreferences.instance.saveEmail(email);
+          AppPreferences.instance.saveWallet(wallet);
         } else {
           // Node không tồn tại
           print('Không tìm thấy thông tin người dùng');
