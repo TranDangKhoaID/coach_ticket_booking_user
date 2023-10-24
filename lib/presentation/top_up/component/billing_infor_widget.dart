@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
 class BillInforWidget extends StatelessWidget {
-  final String phone;
+  final String ctk;
+  final String stk;
   final String money;
+  final String paymentMethod;
+  final String phone;
+  final String payContent;
   const BillInforWidget({
     super.key,
-    required this.phone,
+    required this.ctk,
+    required this.stk,
     required this.money,
+    required this.paymentMethod,
+    required this.phone,
+    required this.payContent,
   });
 
   @override
@@ -69,7 +77,7 @@ class BillInforWidget extends StatelessWidget {
                     color: Colors.black,
                     width: 1,
                   )),
-                  child: Text('Momo'),
+                  child: Text(paymentMethod),
                 ),
               )
             ],
@@ -97,7 +105,7 @@ class BillInforWidget extends StatelessWidget {
                     color: Colors.black,
                     width: 1,
                   )),
-                  child: Text('0902800678'),
+                  child: Text(stk),
                 ),
               )
             ],
@@ -125,7 +133,7 @@ class BillInforWidget extends StatelessWidget {
                     color: Colors.black,
                     width: 1,
                   )),
-                  child: Text('TRAN DANG KHOA'),
+                  child: Text(ctk),
                 ),
               )
             ],
@@ -159,30 +167,32 @@ class BillInforWidget extends StatelessWidget {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 flex: 1,
                 child: Container(
+                  height: 50,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       border: Border.all(
                     color: Colors.black,
                     width: 1,
                   )),
-                  child: Text('Nội dung chuyển khoản'),
+                  child: Center(child: Text('Nội dung chuyển khoản')),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Container(
+                  height: 50,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       border: Border.all(
                     color: Colors.black,
                     width: 1,
                   )),
-                  child: Text('Nap $money tdc coach $phone'),
+                  child: Center(child: Text(payContent)),
                 ),
               )
             ],

@@ -59,21 +59,22 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   }
 
   //payment ticket
-  void addBooking({
-    required String userId,
-    required String tripId,
-    required String seatId,
-    required String seatName,
-    required int seatCode,
-    required int price,
-    required String departureLocation,
-    required String destinationLocation,
-    required String departureDate,
-    required String departureTime,
-    required int status,
-  }) async {
+  void addBooking(
+      {required String userId,
+      required String tripId,
+      required String seatId,
+      required String seatName,
+      required int seatCode,
+      required int price,
+      required String departureLocation,
+      required String destinationLocation,
+      required String departureDate,
+      required String departureTime,
+      required int status,
+      required int wallet}) async {
     try {
       String bookingId = generateRandomBookingId();
+      int updateWallet = wallet - price;
       final booking = Booking(
         id: bookingId,
         userId: userId,
@@ -89,11 +90,17 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
         status: status,
         createdAt: dateNow,
       );
+      //add booking
       await database
           .child('booking')
           .child(userId)
           .child(tripId)
           .set(booking.toJson());
+      //update wallet
+      await database
+          .child(FireBaseConstant.customers)
+          .child(userId)
+          .update({'wallet': updateWallet});
       print('Thêm thành công');
     } on FirebaseAuthException catch (e) {
       print('Lỗi $e');
@@ -429,6 +436,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                             departureDate: departureDate!,
                             departureTime: departureTime!,
                             status: 0,
+                            wallet: wallet!,
                           );
                         } else {
                           print('Thanh toán thất bại');
@@ -464,17 +472,6 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   void getWalletFirebase() {
     database
         .child(FireBaseConstant.customers)
-        .child(userId!)
-        .child('wallet')
-        .onValue
-        .listen((event) {
-      wallet = event.snapshot.value as int;
-    });
-  }
-
-  void getTripIdFirebase() {
-    database
-        .child('booking')
         .child(userId!)
         .child('wallet')
         .onValue

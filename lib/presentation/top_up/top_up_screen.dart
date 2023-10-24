@@ -16,13 +16,14 @@ class TopUpScreen extends StatefulWidget {
 
 class _TopUpScreenState extends State<TopUpScreen> {
   //
-  DatabaseReference database = FirebaseDatabase.instance.ref();
+  DatabaseReference database =
+      FirebaseDatabase.instance.ref().child('payments');
   //
   //infor bill
-  String? bank;
-  String? accountNumber;
-  String? accountOwner;
-  String? payContent;
+  String paymentMethod = '';
+  String accountNumber = '';
+  String accountOwner = '';
+  String payContent = '';
   //
   String phone = AppPreferences.instance.getPhone() ?? "null";
   String money = '';
@@ -58,162 +59,216 @@ class _TopUpScreenState extends State<TopUpScreen> {
       EasyLoading.showError('Bạn phải nhập số tiền');
       return;
     }
-    setState(() {
-      money = '${_controller.text} đ';
-    });
+    if (_controller.text.length > 11 || _controller.text.length < 6) {
+      EasyLoading.showError('Số từ 10.000 đến 100 triệu');
+      return;
+    }
+    if (_dropDownvalue == 'momo') {
+      paymentMethod = 'momo';
+      accountNumber = '0902800681';
+      accountOwner = 'TRAN DANG KHOA';
+      payContent = 'Nap $money tdc coach vào $phone';
+    } else {
+      paymentMethod = 'tech-com bank';
+      accountNumber = '19032737283';
+      accountOwner = 'TRAN DANG KHOA';
+      payContent = 'Nap $money tdc coach vào $phone';
+    }
+    money = _controller.text;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Nạp tiền'),
-        elevation: 0,
-        backgroundColor: AppColor.primary,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                    //color: Color(0xFFe8e8e8),
-                    blurRadius: 2.0,
-                    offset: Offset(0, 0.5),
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(0.5, 0),
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(0.5, 0),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Số dư trong ví: ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+        backgroundColor: AppColor.white,
+        appBar: AppBar(
+          title: Text('Nạp tiền'),
+          elevation: 0,
+          backgroundColor: AppColor.primary,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      //color: Color(0xFFe8e8e8),
+                      blurRadius: 2.0,
+                      offset: Offset(0, 0.5),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(0.5, 0),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(0.5, 0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Số dư trong ví: ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              '0 đ ',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Cổng thanh toán: ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: DropdownButton(
+                              iconSize: 42.0,
+                              value: _dropDownvalue,
+                              items: const [
+                                DropdownMenuItem(
+                                  child: Text('Momo'),
+                                  value: "momo",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Ngân hàng'),
+                                  value: "bank",
+                                )
+                              ],
+                              onChanged: _dropDownCallBack,
+                              style: TextStyle(
+                                color: AppColor.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: TextFormField(
+                        controller: _controller,
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                        onChanged: (value) {
+                          String formattedValue = formatCurrency(value);
+                          if (value != formattedValue) {
+                            _controller.text = formattedValue;
+                            _controller.selection = TextSelection.fromPosition(
+                              TextPosition(offset: _controller.text.length),
+                            );
+                          }
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.attach_money,
+                            color: AppColor.primary,
+                          ),
+                          hintText: 'Nhập số tiền',
                         ),
                       ),
-                      Expanded(
+                    ),
+                    GestureDetector(
+                      onTap: () => payAccount(),
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColor.primary,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        height: 50,
                         child: Center(
                           child: Text(
-                            '0 đ ',
+                            'Xác nhận',
                             style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Cổng thanh toán: ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: DropdownButton(
-                            iconSize: 42.0,
-                            value: _dropDownvalue,
-                            items: const [
-                              DropdownMenuItem(
-                                child: Text('Momo'),
-                                value: "momo",
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Ngân hàng'),
-                                value: "bank",
-                              )
-                            ],
-                            onChanged: _dropDownCallBack,
-                            style: TextStyle(
-                              color: AppColor.primary,
+                              color: AppColor.white,
                               fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: TextFormField(
-                      controller: _controller,
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                      onChanged: (value) {
-                        String formattedValue = formatCurrency(value);
-                        if (value != formattedValue) {
-                          _controller.text = formattedValue;
-                          _controller.selection = TextSelection.fromPosition(
-                            TextPosition(offset: _controller.text.length),
-                          );
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.attach_money,
+                    )
+                  ],
+                ),
+              ),
+              BillInforWidget(
+                ctk: accountOwner,
+                stk: accountNumber,
+                money: money,
+                paymentMethod: paymentMethod,
+                phone: phone,
+                payContent: payContent,
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 80,
+          child: BottomAppBar(
+            elevation: 64,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
                           color: AppColor.primary,
+                          borderRadius: BorderRadius.circular(32),
                         ),
-                        hintText: 'Nhập số tiền',
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => payAccount(),
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColor.primary,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          'Nạp',
-                          style: TextStyle(
-                            color: AppColor.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                        child: Center(
+                          child: Text(
+                            "Nạp",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            BillInforWidget(phone: phone, money: money)
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
