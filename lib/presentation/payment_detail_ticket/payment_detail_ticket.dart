@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
@@ -10,6 +11,8 @@ import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
+
+import '../../app/constants/strings.dart';
 
 class PayMentDetailTicket extends StatefulWidget {
   final Trip trip;
@@ -90,6 +93,15 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
         status: status,
         createdAt: dateNow,
       );
+      EasyLoading.show(status: AppString.loading);
+      //check trip id
+      final DataSnapshot snapshot =
+          await database.child('booking').child(userId).child(tripId).get();
+      if (snapshot.value != null) {
+        EasyLoading.dismiss();
+        EasyLoading.showError('Đã mua chuyến này');
+        return;
+      }
       //add booking
       await database
           .child('booking')
@@ -101,6 +113,16 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
           .child(FireBaseConstant.customers)
           .child(userId)
           .update({'wallet': updateWallet});
+      //update seat
+      await database
+          .child('seats')
+          .child(widget.trip.carId)
+          .child(seatId)
+          .update({
+        'status': 1,
+        'userPhone': phone,
+      });
+      EasyLoading.dismiss();
       print('Thêm thành công');
     } on FirebaseAuthException catch (e) {
       print('Lỗi $e');
