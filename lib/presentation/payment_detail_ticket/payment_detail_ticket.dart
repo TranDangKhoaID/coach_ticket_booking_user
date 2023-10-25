@@ -64,6 +64,8 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   //payment ticket
   void addBooking(
       {required String userId,
+      required String userName,
+      required String userPhone,
       required String tripId,
       required String seatId,
       required String seatName,
@@ -81,6 +83,8 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
       final booking = Booking(
         id: bookingId,
         userId: userId,
+        userName: userName,
+        userPhone: userPhone,
         tripId: tripId,
         seatId: seatId,
         seatName: seatName,
@@ -431,7 +435,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
         bottomNavigationBar: SizedBox(
@@ -448,6 +452,8 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         if (wallet! >= price!) {
                           addBooking(
                             userId: userId!,
+                            userName: fullName,
+                            userPhone: phone,
                             tripId: tripId!,
                             seatId: seatId!,
                             seatName: seatName!,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/presentation/account/account_screen.dart';
-import 'package:tdc_coach_user/presentation/history_ticket_screen.dart/history_ticket_screen.dart';
+import 'package:tdc_coach_user/presentation/tickets_screen.dart/tickets_screen.dart';
 import 'package:tdc_coach_user/presentation/home_page/home_page_screen.dart';
 import 'package:tdc_coach_user/presentation/widgets/bottom_navigation_bar.dart';
 

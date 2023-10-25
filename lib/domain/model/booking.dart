@@ -1,6 +1,8 @@
 class Booking {
   final String id;
   final String userId;
+  final String userName;
+  final String userPhone;
   final String tripId;
   final String seatId;
   final String seatName;
@@ -16,6 +18,8 @@ class Booking {
   Booking({
     required this.id,
     required this.userId,
+    required this.userName,
+    required this.userPhone,
     required this.tripId,
     required this.seatId,
     required this.seatName,
@@ -34,6 +38,8 @@ class Booking {
     return {
       'id': id,
       'userId': userId,
+      'userName': userName,
+      'userPhone': userPhone,
       'tripId': tripId,
       'seatId': seatId,
       'seatName': seatName,
@@ -53,6 +59,8 @@ class Booking {
     return Booking(
       id: json['id'],
       userId: json['userId'],
+      userName: json['userName'],
+      userPhone: json['userPhone'],
       tripId: json['tripId'],
       seatId: json['seatId'],
       seatName: json['seatName'],
