@@ -8,7 +8,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tài khoản'),
+        title: Text('Tài khoản người dùng'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColor.primary,
