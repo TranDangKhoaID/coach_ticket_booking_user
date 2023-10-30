@@ -183,7 +183,7 @@ class _DetailTicketState extends State<DetailTicket> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Trạng thái',
                         style: TextStyle(
                           fontSize: 16,

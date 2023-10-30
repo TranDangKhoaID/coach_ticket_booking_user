@@ -39,6 +39,7 @@ class _TicketHistoryState extends State<TicketHistory> {
       itemBuilder: (context, snapshot, animation, index) {
         String id = snapshot.child('id').value.toString();
         String userId = snapshot.child('userId').value.toString();
+        String carId = snapshot.child('carId').value.toString();
         String userName = snapshot.child('userName').value.toString();
         String userPhone = snapshot.child('userPhone').value.toString();
         String tripId = snapshot.child('tripId').value.toString();
@@ -57,6 +58,7 @@ class _TicketHistoryState extends State<TicketHistory> {
         Booking booking = Booking(
           id: id,
           userId: userId,
+          carId: carId,
           userName: userName,
           userPhone: userPhone,
           tripId: tripId,

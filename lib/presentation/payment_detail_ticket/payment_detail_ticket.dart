@@ -34,6 +34,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   String dateNow = DateFormat('HH:mm dd/MM/yyyy').format(DateTime.now());
   //infor trip
   String? tripId;
+  String? carId;
   String? tripIdFirebase;
   String? seatId;
   String? seatName;
@@ -64,6 +65,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   //payment ticket
   void addBooking(
       {required String userId,
+      required String carId,
       required String userName,
       required String userPhone,
       required String tripId,
@@ -83,6 +85,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
       final booking = Booking(
         id: bookingId,
         userId: userId,
+        carId: carId,
         userName: userName,
         userPhone: userPhone,
         tripId: tripId,
@@ -101,6 +104,17 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
       //check trip id
       final DataSnapshot snapshot =
           await database.child('booking').child(userId).child(tripId).get();
+      final DataSnapshot snapshotSeatID = await database
+          .child('seats')
+          .child(carId)
+          .child(seatId)
+          .child('status')
+          .get();
+      if (snapshotSeatID.value == 1) {
+        EasyLoading.dismiss();
+        EasyLoading.showError('Ghế này đã được đặt');
+        return;
+      }
       if (snapshot.value != null) {
         EasyLoading.dismiss();
         EasyLoading.showError('Đã mua chuyến này');
@@ -137,6 +151,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   void initState() {
     super.initState();
     tripId = widget.trip.id;
+    carId = widget.trip.carId;
     seatId = widget.seat.getId;
     seatName = widget.seat.getName;
     seatCode = widget.seat.getCode;
@@ -452,6 +467,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         if (wallet! >= price!) {
                           addBooking(
                             userId: userId!,
+                            carId: carId!,
                             userName: fullName,
                             userPhone: phone,
                             tripId: tripId!,

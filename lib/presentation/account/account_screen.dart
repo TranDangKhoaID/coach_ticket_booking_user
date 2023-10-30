@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tdc_coach_user/app/manager/color_manager.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -6,8 +7,11 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Account'),
+      appBar: AppBar(
+        title: Text('Tài khoản'),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: AppColor.primary,
       ),
     );
   }
