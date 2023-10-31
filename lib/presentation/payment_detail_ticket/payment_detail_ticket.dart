@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
+import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
-
-import '../../app/constants/strings.dart';
 
 class PayMentDetailTicket extends StatefulWidget {
   final Trip trip;
@@ -102,8 +101,12 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
       );
       EasyLoading.show(status: AppString.loading);
       //check trip id
-      final DataSnapshot snapshot =
-          await database.child('booking').child(userId).child(tripId).get();
+      final DataSnapshot snapshot = await database
+          .child('booking')
+          .child(userId)
+          .child(tripId)
+          .child('status')
+          .get();
       final DataSnapshot snapshotSeatID = await database
           .child('seats')
           .child(carId)
@@ -115,7 +118,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
         EasyLoading.showError('Ghế này đã được đặt');
         return;
       }
-      if (snapshot.value != null) {
+      if (snapshot.value == 0) {
         EasyLoading.dismiss();
         EasyLoading.showError('Đã mua chuyến này');
         return;
@@ -441,7 +444,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         Spacer(),
                         Text(
                           '$formattedPrice đ',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 17,
                           ),
                         ),
@@ -483,7 +486,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                             wallet: wallet!,
                           );
                         } else {
-                          print('Thanh toán thất bại');
+                          print('Lỗi ko đủ tiền');
                         }
                       },
                       child: Container(

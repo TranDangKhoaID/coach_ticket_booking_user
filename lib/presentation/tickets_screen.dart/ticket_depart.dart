@@ -76,7 +76,11 @@ class _TicketDepartState extends State<TicketDepart> {
         DateTime departureDateTime =
             DateFormat('dd/MM/yyyy').parse(booking.departureDate);
         if (DateTime.now().isAfter(departureDateTime)) {
-          database.child(tripId).update({'status': 1});
+          database
+              .child('booking')
+              .child(userId)
+              .child(tripId)
+              .update({'status': 1});
           print('Cập nhật trạng thái');
         }
         if (booking.status == 0) {

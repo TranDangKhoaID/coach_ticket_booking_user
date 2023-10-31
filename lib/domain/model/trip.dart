@@ -1,6 +1,3 @@
-import 'package:tdc_coach_user/domain/model/car.dart';
-import 'package:tdc_coach_user/domain/model/location.dart';
-
 class Trip {
   final String id;
   final String departureDate;
