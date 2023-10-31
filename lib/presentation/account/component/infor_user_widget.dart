@@ -29,16 +29,16 @@ class InForUserWidget extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Text(
               fullName,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
               ),
             )
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(

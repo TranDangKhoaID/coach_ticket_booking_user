@@ -29,14 +29,14 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
-        title: Text('Tài khoản'),
+        title: const Text('Tài khoản'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColor.primary,
       ),
       body: Center(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: StreamBuilder(
             stream: dbCustomer!.onValue,
             builder: (context, snapshot) {
