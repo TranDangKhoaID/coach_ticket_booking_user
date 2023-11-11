@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   },
-                  value: 9000,
+                  value: 8900,
                 ),
                 const SizedBox(
                   height: 10,
