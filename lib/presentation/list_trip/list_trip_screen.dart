@@ -3,7 +3,7 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
-import 'package:tdc_coach_user/presentation/list_trip.dart/component/trip_item.dart';
+import 'package:tdc_coach_user/presentation/list_trip/component/trip_item.dart';
 import 'package:tdc_coach_user/presentation/select_seat/select_seat.dart';
 
 class ListTripScreen extends StatefulWidget {

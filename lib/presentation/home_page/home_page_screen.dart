@@ -12,7 +12,7 @@ import 'package:tdc_coach_user/presentation/home_page/component/icon_positioned.
 import 'package:tdc_coach_user/presentation/home_page/component/select_destination_location.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/select_departure_location.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/money_widget.dart';
-import 'package:tdc_coach_user/presentation/list_trip.dart/list_trip_screen.dart';
+import 'package:tdc_coach_user/presentation/list_trip/list_trip_screen.dart';
 import 'package:tdc_coach_user/presentation/location/location_screen.dart';
 import 'package:tdc_coach_user/presentation/top_up/top_up_screen.dart';
 

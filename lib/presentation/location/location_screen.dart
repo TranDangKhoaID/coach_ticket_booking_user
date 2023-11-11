@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/location.dart';
-import 'package:tdc_coach_user/presentation/list_trip.dart/trips_data.dart';
+import 'package:tdc_coach_user/presentation/list_trip/trips_data.dart';
 
 class LocationScreen extends StatelessWidget {
   const LocationScreen({Key? key}) : super(key: key);
