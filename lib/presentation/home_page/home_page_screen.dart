@@ -15,7 +15,8 @@ import 'package:tdc_coach_user/presentation/home_page/component/select_departure
 import 'package:tdc_coach_user/presentation/home_page/component/money_widget.dart';
 import 'package:tdc_coach_user/presentation/home_page/controller/home_page_controller.dart';
 import 'package:tdc_coach_user/presentation/list_trip/list_trip_screen.dart';
-import 'package:tdc_coach_user/presentation/location/location_screen.dart';
+import 'package:tdc_coach_user/presentation/location/location_depart_screen.dart';
+import 'package:tdc_coach_user/presentation/location/location_des_screen.dart';
 import 'package:tdc_coach_user/presentation/top_up/top_up_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,65 +29,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //text
   String fullName = AppPreferences.instance.getFullName() ?? "Khách Hàng";
-  String? selectedDeparture; // Giá trị ban đầu
-  String? selectedDestination;
   FirebaseAuth auth = FireBaseConstant.auth;
   final DatabaseReference database = FirebaseDatabase.instance.ref();
   String selectedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
-  // Tạo một danh sách mới để lưu trữ chuyến đi đã lọc
-  //List<Trip> filteredTrips = [];
-  bool isDisable = true;
 
   //đăng xuất
   void signOut(BuildContext context) {
     AppPreferences.instance.logout();
     FirebaseAuth.instance.signOut();
-  }
-
-  Future<void> _navigateToStartLocation() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LocationScreen(),
-      ),
-    );
-    if (result != null) {
-      setState(() {
-        selectedDeparture = result;
-      });
-    }
-    if (selectedDeparture != null && selectedDestination != null) {
-      setState(() {
-        isDisable = false;
-      });
-    } else {
-      setState(() {
-        isDisable = true;
-      });
-    }
-  }
-
-  Future<void> _navigateToDestinationLocation() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LocationScreen(),
-      ),
-    );
-    if (result != null) {
-      setState(() {
-        selectedDestination = result;
-      });
-    }
-    if (selectedDeparture != null && selectedDestination != null) {
-      setState(() {
-        isDisable = false;
-      });
-    } else {
-      setState(() {
-        isDisable = true;
-      });
-    }
   }
 
   @override
@@ -173,18 +123,26 @@ class _HomePageState extends State<HomePage> {
                                 right: 0,
                                 bottom: 0,
                                 top: 0,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SelectDepartureLocation(
-                                      selectLocation: selectedDeparture,
-                                      onTap: _navigateToStartLocation,
-                                    ),
-                                    SelectDestinationLocation(
-                                      selectLocation: selectedDestination,
-                                      onTap: _navigateToDestinationLocation,
-                                    )
-                                  ],
+                                child: Obx(
+                                  () => Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SelectDepartureLocation(
+                                        selectLocation: HomePageController
+                                            .instance.selectedDeparture.value,
+                                        onTap: () {
+                                          Get.to(() => LocationDepartScreen());
+                                        },
+                                      ),
+                                      SelectDestinationLocation(
+                                        selectLocation: HomePageController
+                                            .instance.selectedDestination.value,
+                                        onTap: () {
+                                          Get.to(() => LocationDesScreen());
+                                        },
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               const IconPositioned(),
@@ -192,30 +150,27 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         selectDateWidget(context),
-                        // SelectDateWidget(
-                        //   selectedDate: selectedDate,
-                        //   context: context,
-                        // ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ButtonSearchTrip(
-                          isDisable: isDisable,
-                          onTap: () {
-                            //filterTrips();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ListTripScreen(
+                        Obx(
+                          () => ButtonSearchTrip(
+                            isDisable:
+                                HomePageController.instance.isDisable.value,
+                            onTap: () {
+                              //filterTrips();
+                              Get.to(
+                                () => ListTripScreen(
                                   filterDepartureDate: selectedDate,
-                                  filterDepartureLocation: selectedDeparture,
-                                  filterDestinationLocation:
-                                      selectedDestination,
+                                  filterDepartureLocation: HomePageController
+                                      .instance.selectedDeparture.value,
+                                  filterDestinationLocation: HomePageController
+                                      .instance.selectedDestination.value,
                                 ),
-                              ),
-                            );
-                          },
-                        ),
+                              );
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),
