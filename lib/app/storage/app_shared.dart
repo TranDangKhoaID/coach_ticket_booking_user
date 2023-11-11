@@ -6,6 +6,7 @@ class StorageKey {
   static const prefsKeyPhone = "PREFS_KEY_PHONE";
   static const prefsKeyUserID = "PREFS_KEY_UID";
   static const prefsKeyWallet = "PREFS_KEY_WALLET";
+  static const verificationPhoneId = "PREFS_VEF_PHONE";
 }
 
 class AppShared {
@@ -29,7 +30,7 @@ class AppPreferences {
   }
 
   String? getFullName() {
-    return AppShared.share?.getString(StorageKey.prefsKeyFullName);
+    return AppShared.share?.getString(StorageKey.prefsKeyFullName) ?? '';
   }
 
   Future<void> saveEmail(String email) async {
@@ -37,7 +38,7 @@ class AppPreferences {
   }
 
   String? getEmail() {
-    return AppShared.share?.getString(StorageKey.prefsKeyEmail);
+    return AppShared.share?.getString(StorageKey.prefsKeyEmail) ?? '';
   }
 
   Future<void> savePhone(String phone) async {
@@ -45,7 +46,7 @@ class AppPreferences {
   }
 
   String? getPhone() {
-    return AppShared.share?.getString(StorageKey.prefsKeyPhone);
+    return AppShared.share?.getString(StorageKey.prefsKeyPhone) ?? '0';
   }
 
   Future<void> saveUserID(String uid) async {
@@ -53,7 +54,7 @@ class AppPreferences {
   }
 
   String? getUserID() {
-    return AppShared.share?.getString(StorageKey.prefsKeyUserID);
+    return AppShared.share?.getString(StorageKey.prefsKeyUserID) ?? '';
   }
 
   Future<void> saveWallet(int wallet) async {
@@ -61,7 +62,7 @@ class AppPreferences {
   }
 
   int? getWallet() {
-    return AppShared.share?.getInt(StorageKey.prefsKeyWallet);
+    return AppShared.share?.getInt(StorageKey.prefsKeyWallet) ?? 0;
   }
 
   Future<void> logout() async {

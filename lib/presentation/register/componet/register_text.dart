@@ -59,7 +59,7 @@ class RegisterText extends StatelessWidget {
         ),
         TextField(
           controller: phone,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.phone,
               color: AppColor.primary,

@@ -10,6 +10,7 @@ class RegisterController extends GetxController {
   static RegisterController get instance => Get.find();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _database = FirebaseDatabase.instance.ref();
+
   Future<void> signUp({
     required String email,
     required String password,
