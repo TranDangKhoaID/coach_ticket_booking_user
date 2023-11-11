@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
@@ -12,6 +13,7 @@ import 'package:tdc_coach_user/presentation/home_page/component/icon_positioned.
 import 'package:tdc_coach_user/presentation/home_page/component/select_destination_location.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/select_departure_location.dart';
 import 'package:tdc_coach_user/presentation/home_page/component/money_widget.dart';
+import 'package:tdc_coach_user/presentation/home_page/controller/home_page_controller.dart';
 import 'package:tdc_coach_user/presentation/list_trip/list_trip_screen.dart';
 import 'package:tdc_coach_user/presentation/location/location_screen.dart';
 import 'package:tdc_coach_user/presentation/top_up/top_up_screen.dart';
@@ -26,9 +28,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //text
   String fullName = AppPreferences.instance.getFullName() ?? "Khách Hàng";
-  int? wallet;
-  String? formattedWallet;
-
   String? selectedDeparture; // Giá trị ban đầu
   String? selectedDestination;
   FirebaseAuth auth = FireBaseConstant.auth;
@@ -144,16 +143,18 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                MoneyWidget(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TopUpScreen(),
-                      ),
-                    );
-                  },
-                  value: 8900,
+                Obx(
+                  () => MoneyWidget(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TopUpScreen(),
+                        ),
+                      );
+                    },
+                    value: HomePageController.instance.wallet.value,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
