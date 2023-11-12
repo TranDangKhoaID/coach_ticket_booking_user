@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
+import 'package:tdc_coach_user/presentation/list_trip/controller/list_trip_controller.dart';
 import 'package:tdc_coach_user/presentation/payment_detail_ticket/payment_detail_ticket.dart';
 import 'package:tdc_coach_user/presentation/select_seat/component/seat_component.dart';
 
@@ -22,8 +23,7 @@ class _SelectSeatState extends State<SelectSeat> {
   late DatabaseReference database =
       FirebaseDatabase.instance.ref().child('seats').child(widget.trip.carId);
   int selectedCount = 0;
-  //Seat seat = Seat(id: 'seat1', name: 'A01', status: 0);
-  //
+
   Seat seatChoose = Seat.empty();
   bool isOccupied = false;
 
@@ -35,7 +35,6 @@ class _SelectSeatState extends State<SelectSeat> {
       });
       seatChoose = seat;
     }
-    print(seat.getIsOccupied);
   }
 
   @override
@@ -50,7 +49,7 @@ class _SelectSeatState extends State<SelectSeat> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: AppColor.primary,
-        title: Text(widget.trip.carId),
+        title: Text(ListTripController.instance.nameCar.value),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -100,7 +99,6 @@ class _SelectSeatState extends State<SelectSeat> {
                         code: code,
                         status: status,
                         userPhone: userPhone,
-                        isOccupied: false,
                       );
                       seats.add(seat);
                     });
