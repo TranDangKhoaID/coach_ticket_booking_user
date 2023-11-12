@@ -36,15 +36,15 @@ class TripItem extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
                         ),
                         child: Icon(Icons.arrow_forward),
                       ),
                       Text(
                         trip.destinationTime,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -99,7 +99,7 @@ class TripItem extends StatelessWidget {
                         ),
                         Text(
                           carName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             color: AppColor.white,
@@ -111,7 +111,7 @@ class TripItem extends StatelessWidget {
                             color: AppColor.white,
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Còn 1 chỗ',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -124,20 +124,20 @@ class TripItem extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Column(
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.circle_notifications),
-                      SizedBox(
+                      const Icon(Icons.circle_notifications),
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
                         trip.departureLocation,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -155,16 +155,16 @@ class TripItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.place,
                         color: Colors.red,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
                         trip.destinationLocation,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
