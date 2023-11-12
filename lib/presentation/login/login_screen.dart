@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/presentation/login/component/forgot_password_button.dart';
 import 'package:tdc_coach_user/presentation/login/component/login_button.dart';
@@ -8,8 +6,6 @@ import 'package:tdc_coach_user/presentation/login/component/login_text.dart';
 import 'package:tdc_coach_user/presentation/login/component/login_welcome.dart';
 import 'package:tdc_coach_user/presentation/login/component/not_a_remember.dart';
 import 'package:tdc_coach_user/presentation/login/cubit/login_controller.dart';
-import 'package:tdc_coach_user/presentation/login/cubit/login_cubit.dart';
-import 'package:tdc_coach_user/presentation/login/cubit/login_state.dart';
 
 class LoginScreen extends StatelessWidget {
   final Function()? onTap;

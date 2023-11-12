@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/presentation/register/componet/have_a_account.dart';
 import 'package:tdc_coach_user/presentation/register/componet/register_button.dart';
 import 'package:tdc_coach_user/presentation/register/componet/register_text.dart';
 import 'package:tdc_coach_user/presentation/register/componet/register_welcome.dart';
 import 'package:tdc_coach_user/presentation/register/cubit/register_controller.dart';
-import 'package:tdc_coach_user/presentation/register/cubit/register_cubit.dart';
-import 'package:tdc_coach_user/presentation/register/cubit/register_state.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function()? onTap;

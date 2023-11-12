@@ -6,12 +6,16 @@ import 'package:tdc_coach_user/domain/model/trip.dart';
 class TripItem extends StatelessWidget {
   final Trip trip;
   final String carName;
+  final String departure;
+  final String destination;
   final void Function()? onTap;
   const TripItem({
     super.key,
     required this.trip,
     required this.carName,
     required this.onTap,
+    required this.departure,
+    required this.destination,
   });
 
   @override
@@ -136,7 +140,7 @@ class TripItem extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        trip.departureLocation,
+                        departure,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -163,7 +167,7 @@ class TripItem extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        trip.destinationLocation,
+                        destination,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

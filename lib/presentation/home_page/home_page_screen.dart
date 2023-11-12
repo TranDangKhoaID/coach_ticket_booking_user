@@ -163,9 +163,9 @@ class _HomePageState extends State<HomePage> {
                                 () => ListTripScreen(
                                   filterDepartureDate: selectedDate,
                                   filterDepartureLocation: HomePageController
-                                      .instance.selectedDeparture.value,
+                                      .instance.idDeparture.value,
                                   filterDestinationLocation: HomePageController
-                                      .instance.selectedDestination.value,
+                                      .instance.idDestination.value,
                                 ),
                               );
                             },

@@ -49,9 +49,9 @@ class _ListTripScreenState extends State<ListTripScreen> {
                 String id = snapshot.child('id').value.toString();
                 String departureDate =
                     snapshot.child('departureDate').value.toString();
-                String departureLocation =
+                String departureId =
                     snapshot.child('departureLocation').value.toString();
-                String destinationLocation =
+                String destinationId =
                     snapshot.child('destinationLocation').value.toString();
                 String departureTime =
                     snapshot.child('departureTime').value.toString();
@@ -62,14 +62,16 @@ class _ListTripScreenState extends State<ListTripScreen> {
                 String carId = snapshot.child('carId').value.toString();
 
                 if (departureDate == widget.filterDepartureDate &&
-                    departureLocation == widget.filterDepartureLocation &&
-                    destinationLocation == widget.filterDestinationLocation) {
+                    departureId == widget.filterDepartureLocation &&
+                    destinationId == widget.filterDestinationLocation) {
                   ListTripController.instance.fetchCarName(carId);
+                  ListTripController.instance
+                      .fetchLocation(departureId, destinationId);
                   Trip trip = Trip(
                     id: id,
                     departureDate: departureDate,
-                    departureLocation: departureLocation,
-                    destinationLocation: destinationLocation,
+                    departureLocation: destinationId,
+                    destinationLocation: destinationId,
                     departureTime: departureTime,
                     destinationTime: destinationTime,
                     price: int.parse(price),
@@ -87,6 +89,9 @@ class _ListTripScreenState extends State<ListTripScreen> {
                           ),
                         );
                       },
+                      departure: ListTripController.instance.departure.value,
+                      destination:
+                          ListTripController.instance.destination.value,
                     ),
                   );
                 } else {

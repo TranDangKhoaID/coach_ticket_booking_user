@@ -6,11 +6,21 @@ class ListTripController extends GetxController {
   final DatabaseReference dbCar = FirebaseDatabase.instance.ref();
 
   var nameCar = 'Loading'.obs;
+  var departure = 'Loading...'.obs;
+  var destination = 'Loading...'.obs;
 
   Future<void> fetchCarName(String carId) async {
-    final DataSnapshot snapshotCar =
+    final snapshotCar =
         await dbCar.child('cars').child(carId).child('name').get();
-
     nameCar.value = snapshotCar.value.toString();
+  }
+
+  Future<void> fetchLocation(String departId, String desId) async {
+    final snapshotDepart =
+        await dbCar.child('locations').child(departId).child('address').get();
+    final snapshotDes =
+        await dbCar.child('locations').child(desId).child('address').get();
+    departure.value = snapshotDepart.value.toString();
+    destination.value = snapshotDes.value.toString();
   }
 }

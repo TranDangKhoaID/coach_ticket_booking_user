@@ -16,7 +16,11 @@ class LocationItemWidget extends StatelessWidget {
     return SizedBox(
       child: Column(
         children: [
-          ListTile(title: Text(location.name), onTap: onTap),
+          ListTile(
+            title: Text(location.name),
+            subtitle: Text(location.address),
+            onTap: onTap,
+          ),
           const Divider(),
         ],
       ),

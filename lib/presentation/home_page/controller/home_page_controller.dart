@@ -14,11 +14,14 @@ class HomePageController extends GetxController {
   //select điểm đi
   var selectedDeparture = 'Chọn điểm đi'.obs; // Giá trị ban đầu
   var selectedDestination = 'Chọn điểm đến'.obs;
+  var idDeparture = ''.obs; // Giá trị ban đầu
+  var idDestination = ''.obs;
   var isDisable = true.obs;
 
   // Hàm để chọn địa điểm
-  void selectDepartLocation(String location) {
+  void selectDepartLocation(String location, String id) {
     selectedDeparture.value = location;
+    idDeparture.value = id;
     if (selectedDeparture.value.endsWith('Chọn điểm đi') ||
         selectedDestination.value.endsWith('Chọn điểm đến')) {
       isDisable.value = true;
@@ -35,8 +38,9 @@ class HomePageController extends GetxController {
     Get.back();
   }
 
-  void selectDesLocation(String location) {
+  void selectDesLocation(String location, String id) {
     selectedDestination.value = location;
+    idDestination.value = id;
     if (selectedDeparture.value.endsWith('Chọn điểm đi') ||
         selectedDestination.value.endsWith('Chọn điểm đến')) {
       isDisable.value = true;
