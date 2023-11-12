@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
+import 'package:tdc_coach_user/presentation/select_seat/controller/select_seat_controller.dart';
 
 // ignore: must_be_immutable
 class GeneralSeatComponet extends StatefulWidget {
@@ -18,12 +19,10 @@ class GeneralSeatComponet extends StatefulWidget {
 }
 
 class _GeneralSeatComponetState extends State<GeneralSeatComponet> {
-  late Color color;
-
+  Color? color;
   @override
   void initState() {
     super.initState();
-    // Khởi tạo giá trị color dựa trên seat.status và isOccupied
     if (widget.seat.getStatus == 0) {
       color = AppColor.trong;
     } else {

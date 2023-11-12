@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
@@ -12,6 +11,7 @@ import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
+import 'package:tdc_coach_user/presentation/payment_detail_ticket/controller/payment_ticket_controller.dart';
 import 'package:tdc_coach_user/presentation/widgets/error_dialog.dart';
 
 class PayMentDetailTicket extends StatefulWidget {
@@ -51,105 +51,6 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   String phone = AppPreferences.instance.getPhone()!;
   String email = AppPreferences.instance.getEmail()!;
   int? wallet;
-
-  //general booking id
-
-  String generateRandomBookingId() {
-    final random = Random();
-    const maxNumber = 9999999;
-    const minNumber = 1000000;
-    final randomNumber = minNumber + random.nextInt(maxNumber - minNumber);
-    return 'booking$randomNumber';
-  }
-
-  //payment ticket
-  void addBooking(
-      {required String userId,
-      required String carId,
-      required String userName,
-      required String userPhone,
-      required String tripId,
-      required String seatId,
-      required String seatName,
-      required int seatCode,
-      required int price,
-      required String departureLocation,
-      required String destinationLocation,
-      required String departureDate,
-      required String departureTime,
-      required int status,
-      required int wallet}) async {
-    try {
-      String bookingId = generateRandomBookingId();
-      int updateWallet = wallet - price;
-      final booking = Booking(
-        id: bookingId,
-        userId: userId,
-        carId: carId,
-        userName: userName,
-        userPhone: userPhone,
-        tripId: tripId,
-        seatId: seatId,
-        seatName: seatName,
-        seatCode: seatCode,
-        price: price,
-        departureLocation: departureLocation,
-        destinationLocation: destinationLocation,
-        departureDate: departureDate,
-        departureTime: departureTime,
-        status: status,
-        createdAt: dateNow,
-      );
-      EasyLoading.show(status: AppString.loading);
-      //check trip id
-      final DataSnapshot snapshot = await database
-          .child('booking')
-          .child(userId)
-          .child(tripId)
-          .child('status')
-          .get();
-      final DataSnapshot snapshotSeatID = await database
-          .child('seats')
-          .child(carId)
-          .child(seatId)
-          .child('status')
-          .get();
-      if (snapshotSeatID.value == 1) {
-        EasyLoading.dismiss();
-        EasyLoading.showError('Ghế này đã được đặt');
-        return;
-      }
-      if (snapshot.value == 0) {
-        EasyLoading.dismiss();
-        EasyLoading.showError('Đã mua chuyến này');
-        return;
-      }
-      //add booking
-      await database
-          .child('booking')
-          .child(userId)
-          .child(tripId)
-          .set(booking.toJson());
-      //update wallet
-      await database
-          .child(FireBaseConstant.customers)
-          .child(userId)
-          .update({'wallet': updateWallet});
-      //update seat
-      await database
-          .child('seats')
-          .child(widget.trip.carId)
-          .child(seatId)
-          .update({
-        'status': 1,
-        'userPhone': phone,
-      });
-      EasyLoading.dismiss();
-      print('Thêm thành công');
-    } on FirebaseAuthException catch (e) {
-      print('Lỗi $e');
-    }
-  }
 
   @override
   void initState() {
@@ -301,22 +202,32 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         ),
                       ),
                       Spacer(),
-                      Row(
-                        children: [
-                          Text(
-                            departureLocation ?? '',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          Icon(Icons.arrow_right),
-                          Text(
-                            destinationLocation ?? '',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
+                      Obx(
+                        () {
+                          PaymentTicketController.instance.fetchLocation(
+                            departureLocation!,
+                            destinationLocation!,
+                          );
+                          return Row(
+                            children: [
+                              Text(
+                                PaymentTicketController
+                                    .instance.departure.value,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Icon(Icons.arrow_right),
+                              Text(
+                                PaymentTicketController
+                                    .instance.destination.value,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       )
                     ],
                   ),
@@ -469,7 +380,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                     child: GestureDetector(
                       onTap: () {
                         if (wallet! >= price!) {
-                          addBooking(
+                          PaymentTicketController.instance.addBooking(
                             userId: userId!,
                             carId: carId!,
                             userName: fullName,
@@ -490,12 +401,11 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return ErrorDialogWidget(
+                              return const ErrorDialogWidget(
                                 title: 'Không đủ tiền',
                               );
                             },
                           );
-                          print('Lỗi ko đủ tiền');
                         }
                       },
                       child: Container(
@@ -540,7 +450,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
     return Row(
       children: [
         Text(
-          'Số tiền trong ví',
+          'Phí thanh toán',
           style: TextStyle(
             fontSize: 17,
             color: Colors.grey[600],

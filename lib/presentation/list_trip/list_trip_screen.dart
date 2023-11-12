@@ -70,7 +70,7 @@ class _ListTripScreenState extends State<ListTripScreen> {
                   Trip trip = Trip(
                     id: id,
                     departureDate: departureDate,
-                    departureLocation: destinationId,
+                    departureLocation: departureId,
                     destinationLocation: destinationId,
                     departureTime: departureTime,
                     destinationTime: destinationTime,
