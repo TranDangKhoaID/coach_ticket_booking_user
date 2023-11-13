@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
-import 'package:tdc_coach_user/presentation/detail_ticket.dart/detail_ticket.dart';
-import 'package:tdc_coach_user/presentation/tickets_screen.dart/component/ticket_item_widget.dart';
+import 'package:tdc_coach_user/presentation/detail_ticket/detail_ticket.dart';
+import 'package:tdc_coach_user/presentation/tickets_screen/component/ticket_item_widget.dart';
 
 class TicketDepart extends StatefulWidget {
   const TicketDepart({super.key});

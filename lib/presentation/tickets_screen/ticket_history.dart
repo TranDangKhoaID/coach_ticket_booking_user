@@ -4,8 +4,8 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
-import 'package:tdc_coach_user/presentation/detail_ticket.dart/detail_ticket.dart';
-import 'package:tdc_coach_user/presentation/tickets_screen.dart/component/ticket_item_widget.dart';
+import 'package:tdc_coach_user/presentation/detail_ticket/detail_ticket.dart';
+import 'package:tdc_coach_user/presentation/tickets_screen/component/ticket_item_widget.dart';
 
 class TicketHistory extends StatefulWidget {
   const TicketHistory({super.key});

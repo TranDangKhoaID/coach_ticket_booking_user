@@ -12,6 +12,7 @@ import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
+import 'package:tdc_coach_user/presentation/widgets/error_dialog.dart';
 
 class PayMentDetailTicket extends StatefulWidget {
   final Trip trip;
@@ -46,7 +47,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
   String? formattedPrice;
   //infor user
   String? userId;
-  String fullName = AppPreferences.instance.getFullName()!;
+  String fullName = AppPreferences.instance.getFullName() ?? 'Khách hàng';
   String phone = AppPreferences.instance.getPhone()!;
   String email = AppPreferences.instance.getEmail()!;
   int? wallet;
@@ -486,6 +487,14 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                             wallet: wallet!,
                           );
                         } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ErrorDialogWidget(
+                                title: 'Không đủ tiền',
+                              );
+                            },
+                          );
                           print('Lỗi ko đủ tiền');
                         }
                       },
