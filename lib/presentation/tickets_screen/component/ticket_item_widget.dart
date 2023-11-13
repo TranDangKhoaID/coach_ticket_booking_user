@@ -18,11 +18,11 @@ class TicketItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.yellow,
+          color: Colors.yellow[300],
           borderRadius: BorderRadius.circular(5),
         ),
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         width: double.infinity,
         child: Row(
           children: [
@@ -30,19 +30,19 @@ class TicketItem extends StatelessWidget {
               flex: 1,
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     'Giờ xuất bến',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 13,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     booking.departureTime,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 25,
                       color: AppColor.primary,
                     ),
@@ -54,7 +54,7 @@ class TicketItem extends StatelessWidget {
                       color: Colors.grey[700],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
@@ -79,24 +79,10 @@ class TicketItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('Mã vé: '),
-                      Text(
-                        ' AGTDF',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.circle_notifications),
+                      const Icon(Icons.circle_notifications),
                       Text(
                         booking.departureLocation,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -104,35 +90,35 @@ class TicketItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.place,
                         color: Colors.red,
                       ),
                       Text(
                         ' ${booking.destinationLocation}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Ghế: ',
                       ),
                       Text(
                         ' ${booking.seatName}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                 ],

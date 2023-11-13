@@ -23,14 +23,14 @@ class _TicketHistoryState extends State<TicketHistory> {
     super.initState();
     database = FirebaseDatabase.instance
         .ref()
-        .child('booking')
+        .child('bookings')
         .child(auth.currentUser!.uid);
   }
 
   @override
   Widget build(BuildContext context) {
     return FirebaseAnimatedList(
-      defaultChild: Center(
+      defaultChild: const Center(
         child: CircularProgressIndicator(
           color: AppColor.primary,
         ),
@@ -81,8 +81,9 @@ class _TicketHistoryState extends State<TicketHistory> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailTicket(
+                    createAt: booking.createdAt,
                     booking: booking,
-                    onTap: () {},
+                    onTap: null,
                   ),
                 ),
               );

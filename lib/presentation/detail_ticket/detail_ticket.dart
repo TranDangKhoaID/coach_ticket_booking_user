@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
@@ -6,10 +7,12 @@ import 'package:tdc_coach_user/domain/model/booking.dart';
 class DetailTicket extends StatefulWidget {
   final Booking booking;
   final void Function()? onTap;
+  final String createAt;
   const DetailTicket({
     super.key,
     required this.booking,
     required this.onTap,
+    required this.createAt,
   });
   @override
   State<DetailTicket> createState() => _DetailTicketState();
@@ -17,6 +20,12 @@ class DetailTicket extends StatefulWidget {
 
 class _DetailTicketState extends State<DetailTicket> {
   String email = AppPreferences.instance.getEmail() ?? '';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

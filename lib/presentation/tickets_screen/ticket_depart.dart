@@ -2,11 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/presentation/detail_ticket/detail_ticket.dart';
 import 'package:tdc_coach_user/presentation/tickets_screen/component/ticket_item_widget.dart';
+import 'package:tdc_coach_user/presentation/tickets_screen/controller/ticket_controller.dart';
 
 class TicketDepart extends StatefulWidget {
   const TicketDepart({super.key});
@@ -24,7 +26,7 @@ class _TicketDepartState extends State<TicketDepart> {
   @override
   void initState() {
     super.initState();
-    dbBooking = database.child('booking').child(auth.currentUser!.uid);
+    dbBooking = database.child('bookings').child(auth.currentUser!.uid);
   }
 
   @override
@@ -75,46 +77,41 @@ class _TicketDepartState extends State<TicketDepart> {
         );
         DateTime departureDateTime =
             DateFormat('dd/MM/yyyy').parse(booking.departureDate);
-        if (DateTime.now().isAfter(departureDateTime)) {
-          database
-              .child('booking')
-              .child(userId)
-              .child(tripId)
-              .update({'status': 1});
-          print('Cập nhật trạng thái');
+        if (departureDateTime.isAfter(DateTime.now())) {
+          TicketController.instance.updateStatusTicket(
+            database,
+            userId,
+            tripId,
+          );
         }
         if (booking.status == 0) {
           return TicketItem(
             booking: booking,
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailTicket(
-                    booking: booking,
-                    onTap: () async {
-                      await database
-                          .child('booking')
-                          .child(userId)
-                          .child(tripId)
-                          .update({'status': 2});
-                      await database
-                          .child('seats')
-                          .child(carId)
-                          .child(seatId)
-                          .update({
-                        'status': 0,
-                        'userPhone': "",
-                      });
-                      print('Hủy thành công');
-                    },
-                  ),
+              Get.to(
+                () => DetailTicket(
+                  booking: booking,
+                  onTap: () {
+                    TicketController.instance.cancelTicket(
+                      database,
+                      booking.userId,
+                      booking.tripId,
+                      booking.carId,
+                      booking.seatId,
+                      booking.price,
+                    );
+                  },
+                  createAt: booking.createdAt,
                 ),
               );
             },
           );
         } else {
-          return Container();
+          return Container(
+            padding: const EdgeInsets.only(top: 100),
+            alignment: Alignment.center,
+            child: const Text('Bạn chưa có chuyến sắp đi'),
+          );
         }
       },
     );
