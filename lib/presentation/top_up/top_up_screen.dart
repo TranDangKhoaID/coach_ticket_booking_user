@@ -1,10 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
+import 'package:tdc_coach_user/presentation/home_page/controller/home_page_controller.dart';
 import 'package:tdc_coach_user/presentation/top_up/component/billing_infor_widget.dart';
+import 'package:tdc_coach_user/presentation/top_up/controller/top_up_controller.dart';
 
 class TopUpScreen extends StatefulWidget {
   const TopUpScreen({super.key});
@@ -126,7 +129,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         Expanded(
                           child: Center(
                             child: Text(
-                              '0 đ ',
+                              '${HomePageController.instance.wallet.value} đ ',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -149,23 +152,27 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         ),
                         Expanded(
                           child: Center(
-                            child: DropdownButton(
-                              iconSize: 42.0,
-                              value: _dropDownvalue,
-                              items: const [
-                                DropdownMenuItem(
-                                  child: Text('Momo'),
-                                  value: "momo",
+                            child: Obx(
+                              () => DropdownButton(
+                                iconSize: 42.0,
+                                value: TopUpController
+                                    .instance.dropDownvalue.value,
+                                items: const [
+                                  DropdownMenuItem(
+                                    child: Text('Momo'),
+                                    value: "momo",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text('Ngân hàng'),
+                                    value: "bank",
+                                  )
+                                ],
+                                onChanged:
+                                    TopUpController.instance.dropDownCallBack,
+                                style: TextStyle(
+                                  color: AppColor.primary,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                DropdownMenuItem(
-                                  child: Text('Ngân hàng'),
-                                  value: "bank",
-                                )
-                              ],
-                              onChanged: _dropDownCallBack,
-                              style: TextStyle(
-                                color: AppColor.primary,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),

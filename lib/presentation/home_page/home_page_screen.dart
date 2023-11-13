@@ -153,7 +153,6 @@ class _HomePageState extends State<HomePage> {
                             isDisable:
                                 HomePageController.instance.isDisable.value,
                             onTap: () {
-                              //filterTrips();
                               Get.to(
                                 () => ListTripScreen(
                                   filterDepartureDate: selectedDate,

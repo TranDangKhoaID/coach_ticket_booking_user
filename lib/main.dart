@@ -11,6 +11,7 @@ import 'package:tdc_coach_user/presentation/payment_detail_ticket/controller/pay
 import 'package:tdc_coach_user/presentation/register/cubit/register_controller.dart';
 import 'package:tdc_coach_user/presentation/select_seat/controller/select_seat_controller.dart';
 import 'package:tdc_coach_user/presentation/tickets_screen/controller/ticket_controller.dart';
+import 'package:tdc_coach_user/presentation/top_up/controller/top_up_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,5 +26,6 @@ void main() async {
   Get.put(SelectSeatController());
   Get.put(PaymentTicketController());
   Get.put(TicketController());
+  Get.put(TopUpController());
   runApp(const MyApp());
 }
