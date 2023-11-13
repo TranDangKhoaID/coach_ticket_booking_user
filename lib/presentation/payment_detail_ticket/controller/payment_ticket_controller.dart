@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
+import 'package:tdc_coach_user/presentation/home_page/home_page_screen.dart';
+import 'package:tdc_coach_user/presentation/widgets/body_page.dart';
 
 class PaymentTicketController extends GetxController {
   static PaymentTicketController get instance => Get.find();
@@ -15,14 +17,21 @@ class PaymentTicketController extends GetxController {
   //location
   var departure = 'Loading...'.obs;
   var destination = 'Loading...'.obs;
+  var departPoint = 'Loading...'.obs;
 
   Future<void> fetchLocation(String departId, String desId) async {
     final snapshotDepart =
         await _database.child('locations').child(departId).child('name').get();
     final snapshotDestination =
         await _database.child('locations').child(desId).child('name').get();
+    final snapshotPoint = await _database
+        .child('locations')
+        .child(departId)
+        .child('address')
+        .get();
     departure.value = snapshotDepart.value.toString();
     destination.value = snapshotDestination.value.toString();
+    departPoint.value = snapshotPoint.value.toString();
   }
 
   Future<void> addBooking(
@@ -35,8 +44,6 @@ class PaymentTicketController extends GetxController {
       required String seatName,
       required int seatCode,
       required int price,
-      required String departureLocation,
-      required String destinationLocation,
       required String departureDate,
       required String departureTime,
       required int status,
@@ -57,8 +64,9 @@ class PaymentTicketController extends GetxController {
         seatName: seatName,
         seatCode: seatCode,
         price: price,
-        departureLocation: departureLocation,
-        destinationLocation: destinationLocation,
+        departureLocation: departure.value,
+        destinationLocation: destination.value,
+        departurePoint: departPoint.value,
         departureDate: departureDate,
         departureTime: departureTime,
         status: status,
@@ -105,6 +113,7 @@ class PaymentTicketController extends GetxController {
       });
       EasyLoading.dismiss();
       EasyLoading.showSuccess('Thanh toán thành công');
+      Get.offAll(() => const BodyPage());
     } catch (e) {
       EasyLoading.dismiss();
       EasyLoading.showError(e.toString());

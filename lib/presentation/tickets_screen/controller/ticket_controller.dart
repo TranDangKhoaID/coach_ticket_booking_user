@@ -6,6 +6,7 @@ import 'package:tdc_coach_user/app/constants/strings.dart';
 
 class TicketController extends GetxController {
   static TicketController get instance => Get.find();
+  //DatabaseReference db = FirebaseDatabase.instance.ref();
 
   Future<void> cancelTicket(
     DatabaseReference database,
@@ -59,7 +60,6 @@ class TicketController extends GetxController {
           .child(userId)
           .child(tripId)
           .update({'status': 1});
-      EasyLoading.showSuccess('Cập nhật vé!');
     } catch (e) {
       EasyLoading.showError(e.toString());
     }

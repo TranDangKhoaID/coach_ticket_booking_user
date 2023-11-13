@@ -81,5 +81,4 @@ class HomePageController extends GetxController {
       EasyLoading.showError(e.toString());
     }
   }
-  //
 }

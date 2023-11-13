@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
@@ -53,6 +54,8 @@ class _TicketDepartState extends State<TicketDepart> {
             snapshot.child('departureLocation').value.toString();
         String destinationLocation =
             snapshot.child('destinationLocation').value.toString();
+        String departurePoint =
+            snapshot.child('departurePoint').value.toString();
         String departureTime = snapshot.child('departureTime').value.toString();
         String departureDate = snapshot.child('departureDate').value.toString();
         String status = snapshot.child('status').value.toString();
@@ -70,6 +73,7 @@ class _TicketDepartState extends State<TicketDepart> {
           price: int.parse(price),
           departureLocation: departureLocation,
           destinationLocation: destinationLocation,
+          departurePoint: departurePoint,
           departureDate: departureDate,
           departureTime: departureTime,
           status: int.parse(status),
@@ -77,7 +81,7 @@ class _TicketDepartState extends State<TicketDepart> {
         );
         DateTime departureDateTime =
             DateFormat('dd/MM/yyyy').parse(booking.departureDate);
-        if (departureDateTime.isAfter(DateTime.now())) {
+        if (DateTime.now().isAfter(departureDateTime)) {
           TicketController.instance.updateStatusTicket(
             database,
             userId,
@@ -107,11 +111,7 @@ class _TicketDepartState extends State<TicketDepart> {
             },
           );
         } else {
-          return Container(
-            padding: const EdgeInsets.only(top: 100),
-            alignment: Alignment.center,
-            child: const Text('Bạn chưa có chuyến sắp đi'),
-          );
+          return Container();
         }
       },
     );

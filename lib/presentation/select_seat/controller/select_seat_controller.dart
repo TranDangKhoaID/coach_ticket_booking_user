@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';

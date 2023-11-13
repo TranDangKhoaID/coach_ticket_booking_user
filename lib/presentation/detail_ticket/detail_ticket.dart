@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
@@ -246,6 +245,28 @@ class _DetailTicketState extends State<DetailTicket> {
                           ),
                         ],
                       )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Điểm lên xe',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        widget.booking.departurePoint,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(

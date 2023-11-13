@@ -95,7 +95,7 @@ class TicketItem extends StatelessWidget {
                         color: Colors.red,
                       ),
                       Text(
-                        ' ${booking.destinationLocation}',
+                        booking.destinationLocation,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

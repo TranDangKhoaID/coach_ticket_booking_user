@@ -96,12 +96,7 @@ class _HomePageState extends State<HomePage> {
                 Obx(
                   () => MoneyWidget(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TopUpScreen(),
-                        ),
-                      );
+                      Get.to(() => const TopUpScreen());
                     },
                     value: HomePageController.instance.wallet.value,
                   ),

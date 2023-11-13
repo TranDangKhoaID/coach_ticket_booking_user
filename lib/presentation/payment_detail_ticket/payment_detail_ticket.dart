@@ -81,292 +81,318 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
           backgroundColor: AppColor.primary,
         ),
         backgroundColor: Colors.grey[300],
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              color: AppColor.white,
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Thông tin hành khách',
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Họ tên',
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                color: AppColor.white,
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Thông tin hành khách',
                         style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        fullName,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Số điện thoại',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        phone,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Email',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        email,
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              width: double.infinity,
-              color: AppColor.white,
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Thông tin lượt đi',
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: AppColor.primary,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tuyến xe',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Obx(
-                        () {
-                          PaymentTicketController.instance.fetchLocation(
-                            departureLocation!,
-                            destinationLocation!,
-                          );
-                          return Row(
-                            children: [
-                              Text(
-                                PaymentTicketController
-                                    .instance.departure.value,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Icon(Icons.arrow_right),
-                              Text(
-                                PaymentTicketController
-                                    .instance.destination.value,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        departureDate ?? '',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        widget.trip.departureDate,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Số ghế',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        widget.seat.getName,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tổng tiền',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '$formattedPrice đ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.green[700],
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              width: double.infinity,
-              color: AppColor.white,
-              padding: EdgeInsets.all(10),
-              child: Container(
-                padding: EdgeInsets.all(16),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                child: Column(
-                  children: [
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Giá vé',
+                          'Họ tên',
                           style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.grey[600],
+                            fontSize: 16,
+                            color: Colors.grey,
                           ),
                         ),
                         Spacer(),
                         Text(
-                          '$formattedPrice đ',
+                          fullName,
                           style: TextStyle(
-                            fontSize: 17,
+                            fontSize: 16,
                           ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 16,
-                    ),
-                    walletWidget(),
-                    const Divider(
-                      color: Colors.grey,
+                      height: 15,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Expanded(
-                            child: Text(
-                          'Thanh toán mặc định với ví',
+                        Text(
+                          'Số điện thoại',
                           style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.grey[600],
+                            fontSize: 16,
+                            color: Colors.grey,
                           ),
-                        )),
+                        ),
                         Spacer(),
                         Text(
-                          '$formattedPrice đ',
-                          style: const TextStyle(
-                            fontSize: 17,
+                          phone,
+                          style: TextStyle(
+                            fontSize: 16,
                           ),
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Email',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          email,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                width: double.infinity,
+                color: AppColor.white,
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Thông tin lượt đi',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.primary,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tuyến xe',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Spacer(),
+                        Obx(
+                          () {
+                            PaymentTicketController.instance.fetchLocation(
+                              departureLocation!,
+                              destinationLocation!,
+                            );
+                            return Row(
+                              children: [
+                                Text(
+                                  PaymentTicketController
+                                      .instance.departure.value,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Icon(Icons.arrow_right),
+                                Text(
+                                  PaymentTicketController
+                                      .instance.destination.value,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Điểm lên xe',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Spacer(),
+                        Obx(
+                          () => Text(
+                            PaymentTicketController.instance.departPoint.value,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Ngày xuất phát',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          widget.trip.departureDate,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Số ghế',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          widget.seat.getName,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tổng tiền',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          '$formattedPrice đ',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.green[700],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                width: double.infinity,
+                color: AppColor.white,
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Giá vé',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '$formattedPrice đ',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      walletWidget(),
+                      const Divider(
+                        color: Colors.grey,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'Thanh toán mặc định với ví',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey[600],
+                            ),
+                          )),
+                          Spacer(),
+                          Text(
+                            '$formattedPrice đ',
+                            style: const TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         bottomNavigationBar: SizedBox(
           height: 80,
@@ -390,8 +416,6 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                             seatName: seatName!,
                             seatCode: seatCode!,
                             price: price!,
-                            departureLocation: departureLocation!,
-                            destinationLocation: destinationLocation!,
                             departureDate: departureDate!,
                             departureTime: departureTime!,
                             status: 0,
