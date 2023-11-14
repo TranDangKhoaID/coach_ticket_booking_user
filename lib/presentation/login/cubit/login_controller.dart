@@ -8,6 +8,8 @@ import 'package:tdc_coach_user/app/storage/app_shared.dart';
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<void> login({
     required String email,
     required String password,
@@ -50,6 +52,7 @@ class LoginController extends GetxController {
           } else {
             EasyLoading.dismiss();
             EasyLoading.showError('Không tìm thấy thông tin người dùng');
+            auth.signOut();
             //print('Không tìm thấy thông tin người dùng');
             return;
           }
