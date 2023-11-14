@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tdc_coach_user/app/app.dart';
+import 'package:tdc_coach_user/app/helpers/app_loading.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/firebase_options.dart';
 import 'package:tdc_coach_user/presentation/home_page/controller/home_page_controller.dart';
@@ -19,6 +20,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  configLoading();
   Get.put(LoginController());
   Get.put(RegisterController());
   Get.put(HomePageController());

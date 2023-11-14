@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
+import 'package:tdc_coach_user/app/helpers/app_loading.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 
 class LoginController extends GetxController {
@@ -14,7 +15,7 @@ class LoginController extends GetxController {
     required String email,
     required String password,
   }) async {
-    EasyLoading.show(status: 'Đang tải');
+    ProgressHUD.show();
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -58,10 +59,10 @@ class LoginController extends GetxController {
           }
         },
       );
-      EasyLoading.dismiss();
+      ProgressHUD.dismiss();
       //EasyLoading.showSuccess('Đăng')
     } on FirebaseAuthException catch (e) {
-      EasyLoading.dismiss();
+      ProgressHUD.dismiss();
       EasyLoading.showError(
         e.toString(),
         duration: const Duration(seconds: 5),
