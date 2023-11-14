@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
-import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
-import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/domain/model/trip.dart';
 import 'package:tdc_coach_user/presentation/payment_detail_ticket/controller/payment_ticket_controller.dart';

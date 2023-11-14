@@ -57,12 +57,6 @@ class HomePageController extends GetxController {
     Get.back();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    getWallet();
-  }
-
   //lấy giá trị wallet từ firebase
   void getWallet() {
     try {

@@ -2,20 +2,24 @@ class TopUp {
   String id;
   String idUser;
   String phoneUser;
+  int money;
   String paymentMethod;
   String accountNumber;
   String accountOwner;
   String payContent;
+  String creatAt;
   int status;
 
   TopUp({
     required this.id,
     required this.idUser,
     required this.phoneUser,
+    required this.money,
     required this.paymentMethod,
     required this.accountNumber,
     required this.accountOwner,
     required this.payContent,
+    required this.creatAt,
     required this.status,
   });
 
@@ -25,10 +29,12 @@ class TopUp {
       'id': id,
       'idUser': idUser,
       'phoneUser': phoneUser,
+      'money': money,
       'paymentMethod': paymentMethod,
       'accountNumber': accountNumber,
       'accountOwner': accountOwner,
       'payContent': payContent,
+      'creatAt': creatAt,
       'status': status,
     };
   }
@@ -39,10 +45,12 @@ class TopUp {
       id: json['id'],
       idUser: json['idUser'],
       phoneUser: json['phoneUser'],
+      money: json['money'],
       paymentMethod: json['paymentMethod'],
       accountNumber: json['accountNumber'],
       accountOwner: json['accountOwner'],
       payContent: json['payContent'],
+      creatAt: json['creatAt'],
       status: json['status'],
     );
   }

@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     // Chỉ cho phép chế độ màn hình dọc
+    HomePageController.instance.getWallet();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
