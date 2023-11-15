@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
+import 'package:tdc_coach_user/app/helpers/dialog_helper.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
@@ -54,9 +55,9 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
     super.initState();
     tripId = widget.trip.id;
     carId = widget.trip.carId;
-    seatId = widget.seat.getId;
-    seatName = widget.seat.getName;
-    seatCode = widget.seat.getCode;
+    seatId = widget.seat.id;
+    seatName = widget.seat.name;
+    seatCode = widget.seat.code;
     userId = _auth.currentUser!.uid;
     departureLocation = widget.trip.departureLocation;
     destinationLocation = widget.trip.destinationLocation;
@@ -290,7 +291,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         ),
                         Spacer(),
                         Text(
-                          widget.seat.getName,
+                          widget.seat.name,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -403,29 +404,31 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                     child: GestureDetector(
                       onTap: () {
                         if (wallet! >= price!) {
-                          PaymentTicketController.instance.addBooking(
-                            userId: userId!,
-                            carId: carId!,
-                            userName: fullName,
-                            userPhone: phone,
-                            tripId: tripId!,
-                            seatId: seatId!,
-                            seatName: seatName!,
-                            seatCode: seatCode!,
-                            price: price!,
-                            departureDate: departureDate!,
-                            departureTime: departureTime!,
-                            status: 0,
-                            wallet: wallet!,
-                          );
-                        } else {
-                          showDialog(
+                          DialogHelper.showConfirmDialog(
                             context: context,
-                            builder: (context) {
-                              return const ErrorDialogWidget(
-                                title: 'Không đủ tiền',
+                            onPressConfirm: () {
+                              PaymentTicketController.instance.addBooking(
+                                userId: userId!,
+                                carId: carId!,
+                                userName: fullName,
+                                userPhone: phone,
+                                tripId: tripId!,
+                                seatId: seatId!,
+                                seatName: seatName!,
+                                seatCode: seatCode!,
+                                price: price!,
+                                departureDate: departureDate!,
+                                departureTime: departureTime!,
+                                status: 0,
+                                wallet: wallet!,
                               );
                             },
+                            message: 'Xác nhận thanh toán ?',
+                          );
+                        } else {
+                          DialogHelper.showErrorDialog(
+                            'Bạn không đủ tiền',
+                            context: context,
                           );
                         }
                       },

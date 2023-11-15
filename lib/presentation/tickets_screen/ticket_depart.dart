@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:tdc_coach_user/app/helpers/dialog_helper.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/presentation/detail_ticket/detail_ticket.dart';
@@ -96,13 +97,19 @@ class _TicketDepartState extends State<TicketDepart> {
                 () => DetailTicket(
                   booking: booking,
                   onTap: () {
-                    TicketController.instance.cancelTicket(
-                      database,
-                      booking.userId,
-                      booking.tripId,
-                      booking.carId,
-                      booking.seatId,
-                      booking.price,
+                    DialogHelper.showConfirmDialog(
+                      context: context,
+                      onPressConfirm: () {
+                        TicketController.instance.cancelTicket(
+                          database,
+                          booking.userId,
+                          booking.tripId,
+                          booking.carId,
+                          booking.seatId,
+                          booking.price,
+                        );
+                      },
+                      message: 'Xác nhận hủy vé ?',
                     );
                   },
                   createAt: booking.createdAt,

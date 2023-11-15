@@ -110,6 +110,7 @@ class PaymentTicketController extends GetxController {
       await _database.child('seats').child(carId).child(seatId).update({
         'status': 1,
         'userPhone': userPhone,
+        'userID': userId,
       });
       EasyLoading.dismiss();
       EasyLoading.showSuccess('Thanh toán thành công');
