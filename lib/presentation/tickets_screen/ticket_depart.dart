@@ -79,15 +79,15 @@ class _TicketDepartState extends State<TicketDepart> {
           status: int.parse(status),
           createdAt: createdAt,
         );
-        DateTime departureDateTime =
-            DateFormat('dd/MM/yyyy').parse(booking.departureDate);
-        if (DateTime.now().isAfter(departureDateTime)) {
-          TicketController.instance.updateStatusTicket(
-            database,
-            userId,
-            tripId,
-          );
-        }
+        // DateTime departureDateTime =
+        //     DateFormat('dd/MM/yyyy').parse(booking.departureDate);
+        // if (DateTime.now().isAfter(departureDateTime)) {
+        //   TicketController.instance.updateStatusTicket(
+        //     database,
+        //     userId,
+        //     tripId,
+        //   );
+        // }
         if (booking.status == 0) {
           return TicketItem(
             booking: booking,
