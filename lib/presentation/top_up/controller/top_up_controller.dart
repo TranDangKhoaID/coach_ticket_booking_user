@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/app/constants/top_up_constants.dart';
+import 'package:tdc_coach_user/app/helpers/dialog_helper.dart';
 import 'package:tdc_coach_user/domain/model/top_up.dart';
 
 class TopUpController extends GetxController {
@@ -30,11 +32,23 @@ class TopUpController extends GetxController {
   void confirmPayMethod({
     required String phone,
     required String money,
+    required BuildContext context,
   }) {
     if (money.isEmpty) {
-      EasyLoading.showError('Bạn phải nhập số tiền');
+      DialogHelper.showErrorDialog(
+        'Bạn phải nhập số tiền',
+        context: context,
+      );
       return;
     }
+    if (money is! num) {
+      DialogHelper.showErrorDialog(
+        'Bạn chỉ được nhập số',
+        context: context,
+      );
+      return;
+    }
+
     if (money.length > 10 || money.length < 5) {
       EasyLoading.showError('Số từ 10.000 đến 100 triệu');
       return;

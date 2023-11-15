@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tdc_coach_user/app/helpers/dialog_helper.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/presentation/home_page/controller/home_page_controller.dart';
@@ -19,10 +20,6 @@ class _TopUpScreenState extends State<TopUpScreen> {
   String phone = AppPreferences.instance.getPhone() ?? "0";
   //currency
   final _controller = TextEditingController();
-
-  void testPay() {
-    print('Nạppppppp');
-  }
 
   @override
   void dispose() {
@@ -58,7 +55,6 @@ class _TopUpScreenState extends State<TopUpScreen> {
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: const [
                   BoxShadow(
-                    //color: Color(0xFFe8e8e8),
                     blurRadius: 2.0,
                     offset: Offset(0, 0.5),
                   ),
@@ -161,6 +157,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                       TopUpController.instance.confirmPayMethod(
                         phone: phone,
                         money: _controller.text,
+                        context: context,
                       );
                     },
                     child: Container(
@@ -201,9 +198,15 @@ class _TopUpScreenState extends State<TopUpScreen> {
         () => BTNPayAccount(
           isConfrimPay: TopUpController.instance.confirmPay.value,
           onTap: () {
-            TopUpController.instance.addPayAccount(
-              money: _controller.text,
-              phone: phone,
+            DialogHelper.showConfirmDialog(
+              context: context,
+              onPressConfirm: () {
+                TopUpController.instance.addPayAccount(
+                  money: _controller.text,
+                  phone: phone,
+                );
+              },
+              message: 'Xác nhận nạp?',
             );
           },
         ),

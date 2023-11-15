@@ -10,7 +10,7 @@ class SelectSeatController extends GetxController {
   var colorDangChon = AppColor.dangChon.obs;
 
   void selectSeat(Seat seat) {
-    if (seat.getStatus == 0) {
+    if (seat.status == 0) {
       seatCount.value = 1;
       seatChoose.value = seat;
     }

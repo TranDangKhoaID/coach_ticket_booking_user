@@ -23,7 +23,7 @@ class _GeneralSeatComponetState extends State<GeneralSeatComponet> {
   @override
   void initState() {
     super.initState();
-    if (widget.seat.getStatus == 0) {
+    if (widget.seat.status == 0) {
       color = AppColor.trong;
     } else {
       color = AppColor.daMua;
@@ -44,7 +44,7 @@ class _GeneralSeatComponetState extends State<GeneralSeatComponet> {
         ),
         child: Center(
           child: Text(
-            widget.seat.getName,
+            widget.seat.name,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,

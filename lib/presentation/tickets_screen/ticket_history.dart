@@ -8,7 +8,6 @@ import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
 import 'package:tdc_coach_user/presentation/detail_ticket/detail_ticket.dart';
 import 'package:tdc_coach_user/presentation/tickets_screen/component/ticket_item_widget.dart';
-import 'package:tdc_coach_user/presentation/tickets_screen/controller/ticket_controller.dart';
 
 class TicketHistory extends StatefulWidget {
   const TicketHistory({super.key});
