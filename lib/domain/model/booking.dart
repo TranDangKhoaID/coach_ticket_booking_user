@@ -1,3 +1,5 @@
+import 'package:tdc_coach_user/domain/model/seat.dart';
+
 class Booking {
   final String id;
   final String userId;
@@ -6,8 +8,6 @@ class Booking {
   final String userPhone;
   final String tripId;
   final String seatId;
-  final String seatName;
-  final int seatCode;
   final int price;
   final String departureLocation;
   final String destinationLocation;
@@ -16,6 +16,7 @@ class Booking {
   final String departureTime;
   final int status;
   final String createdAt;
+  final Seat seat;
 
   Booking({
     required this.id,
@@ -25,8 +26,6 @@ class Booking {
     required this.userPhone,
     required this.tripId,
     required this.seatId,
-    required this.seatName,
-    required this.seatCode,
     required this.price,
     required this.departureLocation,
     required this.destinationLocation,
@@ -35,6 +34,7 @@ class Booking {
     required this.departureTime,
     required this.status,
     required this.createdAt,
+    required this.seat,
   });
 
   // Convert Booking object to a JSON map
@@ -47,8 +47,6 @@ class Booking {
       'userPhone': userPhone,
       'tripId': tripId,
       'seatId': seatId,
-      'seatName': seatName,
-      'seatCode': seatCode,
       'price': price,
       'departureLocation': departureLocation,
       'destinationLocation': destinationLocation,
@@ -57,6 +55,7 @@ class Booking {
       'departureTime': departureTime,
       'status': status,
       'createdAt': createdAt,
+      'seat': seat.toJson(),
     };
   }
 
@@ -70,8 +69,6 @@ class Booking {
       userPhone: json['userPhone'],
       tripId: json['tripId'],
       seatId: json['seatId'],
-      seatName: json['seatName'],
-      seatCode: json['seatCode'],
       price: json['price'],
       departureLocation: json['departureLocation'],
       destinationLocation: json['destinationLocation'],
@@ -80,6 +77,7 @@ class Booking {
       departureTime: json['departureTime'],
       status: json['status'],
       createdAt: json['createdAt'],
+      seat: Seat.fromJson(json['seat']),
     );
   }
 }
