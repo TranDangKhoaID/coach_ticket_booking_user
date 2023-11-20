@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
-import 'package:tdc_coach_user/presentation/tickets_screen.dart/ticket_depart.dart';
-import 'package:tdc_coach_user/presentation/tickets_screen.dart/ticket_history.dart';
+import 'package:tdc_coach_user/presentation/tickets_screen/ticket_depart.dart';
+import 'package:tdc_coach_user/presentation/tickets_screen/ticket_history.dart';
 
 class HistoryTicketScreen extends StatelessWidget {
   const HistoryTicketScreen({super.key});

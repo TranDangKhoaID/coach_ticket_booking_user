@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 
 class SelectDestinationLocation extends StatelessWidget {
-  final String? selectLocation;
+  final String selectLocation;
   final void Function()? onTap;
   const SelectDestinationLocation({
     super.key,
@@ -43,14 +43,14 @@ class SelectDestinationLocation extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    selectLocation ?? 'Chọn điểm đến',
+                    selectLocation,
                     style: TextStyle(
-                      color: selectLocation != null
-                          ? AppColor.primary
-                          : Colors.grey,
-                      fontWeight: selectLocation != null
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+                      color: selectLocation.endsWith('Chọn điểm đến')
+                          ? Colors.grey
+                          : AppColor.primary,
+                      fontWeight: selectLocation.endsWith('Chọn điểm đến')
+                          ? FontWeight.normal
+                          : FontWeight.bold,
                     ),
                   ),
                 ),
