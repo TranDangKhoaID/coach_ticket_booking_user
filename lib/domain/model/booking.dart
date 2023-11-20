@@ -11,6 +11,7 @@ class Booking {
   final int price;
   final String departureLocation;
   final String destinationLocation;
+  final String departurePoint;
   final String departureDate;
   final String departureTime;
   final int status;
@@ -29,6 +30,7 @@ class Booking {
     required this.price,
     required this.departureLocation,
     required this.destinationLocation,
+    required this.departurePoint,
     required this.departureDate,
     required this.departureTime,
     required this.status,
@@ -50,6 +52,7 @@ class Booking {
       'price': price,
       'departureLocation': departureLocation,
       'destinationLocation': destinationLocation,
+      'departurePoint': departurePoint,
       'departureDate': departureDate,
       'departureTime': departureTime,
       'status': status,
@@ -72,6 +75,7 @@ class Booking {
       price: json['price'],
       departureLocation: json['departureLocation'],
       destinationLocation: json['destinationLocation'],
+      departurePoint: json['departurePoint'],
       departureDate: json['departureDate'],
       departureTime: json['departureTime'],
       status: json['status'],

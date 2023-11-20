@@ -6,10 +6,12 @@ import 'package:tdc_coach_user/domain/model/booking.dart';
 class DetailTicket extends StatefulWidget {
   final Booking booking;
   final void Function()? onTap;
+  final String createAt;
   const DetailTicket({
     super.key,
     required this.booking,
     required this.onTap,
+    required this.createAt,
   });
   @override
   State<DetailTicket> createState() => _DetailTicketState();
@@ -17,6 +19,12 @@ class DetailTicket extends StatefulWidget {
 
 class _DetailTicketState extends State<DetailTicket> {
   String email = AppPreferences.instance.getEmail() ?? '';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,18 +33,18 @@ class _DetailTicketState extends State<DetailTicket> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColor.primary,
-        title: Text('Thông tin vé'),
+        title: const Text('Thông tin vé'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
               color: AppColor.white,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Align(
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Thông tin hành khách',
@@ -46,67 +54,67 @@ class _DetailTicketState extends State<DetailTicket> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Họ tên',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         widget.booking.userName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Số điện thoại',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         widget.booking.userPhone,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Email',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         email,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),
@@ -116,9 +124,9 @@ class _DetailTicketState extends State<DetailTicket> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
               color: AppColor.white,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   Align(
@@ -132,7 +140,7 @@ class _DetailTicketState extends State<DetailTicket> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
@@ -143,15 +151,15 @@ class _DetailTicketState extends State<DetailTicket> {
                         width: 1,
                       ),
                     ),
-                    margin: EdgeInsets.only(top: 10, bottom: 20),
-                    padding: EdgeInsets.all(15),
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    padding: const EdgeInsets.all(15),
                     child: Row(
                       children: [
                         Expanded(
                           flex: 1,
                           child: Container(
-                            margin: EdgeInsets.only(right: 10),
-                            child: Text('Mã QR'),
+                            margin: const EdgeInsets.only(right: 10),
+                            child: const Text('Mã QR'),
                           ),
                         ),
                         Expanded(
@@ -161,16 +169,16 @@ class _DetailTicketState extends State<DetailTicket> {
                             children: [
                               Text(
                                 widget.booking.seatCode.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text('Ghế: ${widget.booking.seatName}'),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Text('Giá: ${widget.booking.price} đ')
@@ -207,13 +215,13 @@ class _DetailTicketState extends State<DetailTicket> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Tuyến xe',
                         style: TextStyle(
                           fontSize: 16,
@@ -224,14 +232,14 @@ class _DetailTicketState extends State<DetailTicket> {
                         children: [
                           Text(
                             widget.booking.departureLocation,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
-                          Icon(Icons.arrow_right),
+                          const Icon(Icons.arrow_right),
                           Text(
                             widget.booking.destinationLocation,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
@@ -239,13 +247,35 @@ class _DetailTicketState extends State<DetailTicket> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      const Text(
+                        'Điểm lên xe',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
                       Text(
+                        widget.booking.departurePoint,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
                         'Thời gian',
                         style: TextStyle(
                           fontSize: 16,
@@ -262,13 +292,13 @@ class _DetailTicketState extends State<DetailTicket> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Số ghế',
                         style: TextStyle(
                           fontSize: 16,
@@ -285,20 +315,20 @@ class _DetailTicketState extends State<DetailTicket> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10),
                     width: double.infinity,
                     color: AppColor.white,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
-                        borderRadius: BorderRadius.all(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(10),
                         ),
                       ),
@@ -313,16 +343,16 @@ class _DetailTicketState extends State<DetailTicket> {
                                   color: Colors.grey[600],
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 widget.booking.price.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 17,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           walletWidget(),
@@ -339,10 +369,10 @@ class _DetailTicketState extends State<DetailTicket> {
                                   color: Colors.grey[600],
                                 ),
                               )),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 widget.booking.price.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 17,
                                 ),
                               ),
@@ -376,7 +406,7 @@ class _DetailTicketState extends State<DetailTicket> {
                             : Colors.grey,
                         borderRadius: BorderRadius.circular(32),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "Hủy vé",
                           style: TextStyle(
@@ -407,8 +437,8 @@ class _DetailTicketState extends State<DetailTicket> {
             color: Colors.grey[600],
           ),
         ),
-        Spacer(),
-        Text(
+        const Spacer(),
+        const Text(
           '0 đ',
           style: TextStyle(
             fontSize: 17,

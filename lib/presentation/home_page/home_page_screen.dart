@@ -33,16 +33,11 @@ class _HomePageState extends State<HomePage> {
   final DatabaseReference database = FirebaseDatabase.instance.ref();
   String selectedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
-  //đăng xuất
-  void signOut(BuildContext context) {
-    AppPreferences.instance.logout();
-    FirebaseAuth.instance.signOut();
-  }
-
   @override
   void initState() {
     super.initState();
     // Chỉ cho phép chế độ màn hình dọc
+    HomePageController.instance.getWallet();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -69,12 +64,6 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         backgroundColor: AppColor.primary,
         title: appBarTitle(),
-        actions: [
-          IconButton(
-            onPressed: () => signOut(context),
-            icon: const Icon(Icons.logout),
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -94,17 +83,17 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Obx(
-                  () => MoneyWidget(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TopUpScreen(),
-                        ),
-                      );
-                    },
-                    value: HomePageController.instance.wallet.value,
-                  ),
+                  () {
+                    final fwallet = HomePageController.instance.formatCurrency(
+                      HomePageController.instance.wallet.value.toString(),
+                    );
+                    return MoneyWidget(
+                      onTap: () {
+                        Get.to(() => const TopUpScreen());
+                      },
+                      value: '$fwallet đ',
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 10,
@@ -158,7 +147,6 @@ class _HomePageState extends State<HomePage> {
                             isDisable:
                                 HomePageController.instance.isDisable.value,
                             onTap: () {
-                              //filterTrips();
                               Get.to(
                                 () => ListTripScreen(
                                   filterDepartureDate: selectedDate,

@@ -15,7 +15,7 @@ class HistoryTicketScreen extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: AppColor.primary,
-          title: Text('Danh sách vé'),
+          title: const Text('Danh sách vé'),
           centerTitle: true,
           bottom: const TabBar(
             tabs: [
@@ -28,7 +28,7 @@ class HistoryTicketScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             TicketDepart(),
             TicketHistory(),

@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
+import 'package:tdc_coach_user/app/helpers/dialog_helper.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
+import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/presentation/account/component/infor_user_widget.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -17,6 +19,12 @@ class _AccountScreenState extends State<AccountScreen> {
   final DatabaseReference database = FirebaseDatabase.instance.ref();
   DatabaseReference? dbCustomer;
   String? userId;
+  //đăng xuất
+  void signOut(BuildContext context) {
+    AppPreferences.instance.logout();
+    FirebaseAuth.instance.signOut();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,7 +71,15 @@ class _AccountScreenState extends State<AccountScreen> {
                       fullName: fullName,
                       email: email,
                       phone: phone,
-                      onSignOut: () {},
+                      onSignOut: () {
+                        DialogHelper.showConfirmDialog(
+                          context: context,
+                          onPressConfirm: () {
+                            signOut(context);
+                          },
+                          message: 'Xác nhận đăng xuất ?',
+                        );
+                      },
                       onUpdate: () {},
                     ),
                   ],

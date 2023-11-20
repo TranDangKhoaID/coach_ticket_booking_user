@@ -5,7 +5,6 @@ class BillInforWidget extends StatelessWidget {
   final String stk;
   final String money;
   final String paymentMethod;
-  final String phone;
   final String payContent;
   const BillInforWidget({
     super.key,
@@ -13,7 +12,6 @@ class BillInforWidget extends StatelessWidget {
     required this.stk,
     required this.money,
     required this.paymentMethod,
-    required this.phone,
     required this.payContent,
   });
 
@@ -188,13 +186,14 @@ class BillInforWidget extends StatelessWidget {
                   height: 50,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  )),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
                   child: Center(child: Text(payContent)),
                 ),
-              )
+              ),
             ],
           ),
         ],

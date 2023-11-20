@@ -3,16 +3,19 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
+import 'package:tdc_coach_user/app/helpers/app_loading.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<void> login({
     required String email,
     required String password,
   }) async {
-    EasyLoading.show(status: 'Đang tải');
+    ProgressHUD.show();
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -50,15 +53,16 @@ class LoginController extends GetxController {
           } else {
             EasyLoading.dismiss();
             EasyLoading.showError('Không tìm thấy thông tin người dùng');
+            auth.signOut();
             //print('Không tìm thấy thông tin người dùng');
             return;
           }
         },
       );
-      EasyLoading.dismiss();
+      ProgressHUD.dismiss();
       //EasyLoading.showSuccess('Đăng')
     } on FirebaseAuthException catch (e) {
-      EasyLoading.dismiss();
+      ProgressHUD.dismiss();
       EasyLoading.showError(
         e.toString(),
         duration: const Duration(seconds: 5),
