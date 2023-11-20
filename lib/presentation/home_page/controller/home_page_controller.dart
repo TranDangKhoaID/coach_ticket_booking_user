@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 
 class HomePageController extends GetxController {
@@ -57,12 +58,6 @@ class HomePageController extends GetxController {
     Get.back();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    getWallet();
-  }
-
   //lấy giá trị wallet từ firebase
   void getWallet() {
     try {
@@ -81,5 +76,14 @@ class HomePageController extends GetxController {
       EasyLoading.showError(e.toString());
     }
   }
-  //
+
+  String formatCurrency(String value) {
+    final formatter = NumberFormat("#,###", "vi_VN");
+    try {
+      int parsedValue = int.parse(value.replaceAll('.', ''));
+      return formatter.format(parsedValue);
+    } catch (e) {
+      return value;
+    }
+  }
 }

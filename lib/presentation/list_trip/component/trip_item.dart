@@ -109,20 +109,6 @@ class TripItem extends StatelessWidget {
                             color: AppColor.white,
                           ),
                         ),
-                        const Text(
-                          ' - ',
-                          style: TextStyle(
-                            color: AppColor.white,
-                          ),
-                        ),
-                        const Text(
-                          'Còn 1 chỗ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: AppColor.white,
-                          ),
-                        ),
                       ],
                     ),
                   ),

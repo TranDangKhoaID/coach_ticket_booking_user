@@ -4,7 +4,7 @@ import 'package:tdc_coach_user/app/manager/color_manager.dart';
 
 class MoneyWidget extends StatelessWidget {
   final void Function()? onTap;
-  final int value;
+  final String value;
   const MoneyWidget({
     super.key,
     required this.onTap,
@@ -57,7 +57,7 @@ class MoneyWidget extends StatelessWidget {
                       height: heightDivider,
                     ),
                     Text(
-                      '$value đ',
+                      value,
                       style: const TextStyle(
                         fontSize: 20,
                         color: AppColor.primary,
