@@ -111,7 +111,7 @@ class TicketItem extends StatelessWidget {
                         'Ghế: ',
                       ),
                       Text(
-                        ' ${booking.seatName}',
+                        ' ${booking.seat.name}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

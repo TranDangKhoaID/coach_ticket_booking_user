@@ -74,7 +74,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Chi tiết vé'),
+          title: const Text('Chi tiết vé'),
           elevation: 0,
           backgroundColor: AppColor.primary,
         ),
@@ -87,10 +87,10 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
               Container(
                 width: double.infinity,
                 color: AppColor.white,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Thông tin hành khách',
@@ -100,67 +100,67 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Họ tên',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           fullName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Số điện thoại',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           phone,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Email',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           email,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15,
                           ),
                         ),
@@ -170,13 +170,13 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 10),
                 width: double.infinity,
                 color: AppColor.white,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Thông tin lượt đi',
@@ -187,20 +187,20 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Tuyến xe',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Obx(
                           () {
                             PaymentTicketController.instance.fetchLocation(
@@ -212,15 +212,15 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                                 Text(
                                   PaymentTicketController
                                       .instance.departure.value,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                   ),
                                 ),
-                                Icon(Icons.arrow_right),
+                                const Icon(Icons.arrow_right),
                                 Text(
                                   PaymentTicketController
                                       .instance.destination.value,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                   ),
                                 ),
@@ -230,88 +230,88 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Điểm lên xe',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Obx(
                           () => Text(
                             PaymentTicketController.instance.departPoint.value,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Ngày xuất phát',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           widget.trip.departureDate,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Số ghế',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           widget.seat.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Tổng tiền',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           '$formattedPrice đ',
                           style: TextStyle(
@@ -326,16 +326,16 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 10),
                 width: double.infinity,
                 color: AppColor.white,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(10),
                     ),
                   ),
@@ -350,16 +350,16 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                               color: Colors.grey[600],
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             '$formattedPrice đ',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 17,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       walletWidget(),
@@ -376,7 +376,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                               color: Colors.grey[600],
                             ),
                           )),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             '$formattedPrice đ',
                             style: const TextStyle(
@@ -414,8 +414,6 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                                 userPhone: phone,
                                 tripId: tripId!,
                                 seatId: seatId!,
-                                seatName: seatName!,
-                                seatCode: seatCode!,
                                 price: price!,
                                 departureDate: departureDate!,
                                 departureTime: departureTime!,
@@ -437,7 +435,7 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
                           color: AppColor.primary,
                           borderRadius: BorderRadius.circular(32),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "Thanh toán",
                             style: TextStyle(
@@ -480,8 +478,8 @@ class _PayMentDetailTicketState extends State<PayMentDetailTicket> {
             color: Colors.grey[600],
           ),
         ),
-        Spacer(),
-        Text(
+        const Spacer(),
+        const Text(
           '0 đ',
           style: TextStyle(
             fontSize: 17,

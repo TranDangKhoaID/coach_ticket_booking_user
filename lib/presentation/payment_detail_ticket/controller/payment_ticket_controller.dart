@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:tdc_coach_user/app/constants/firebase_constants.dart';
 import 'package:tdc_coach_user/app/constants/strings.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
-import 'package:tdc_coach_user/presentation/home_page/home_page_screen.dart';
+import 'package:tdc_coach_user/domain/model/seat.dart';
 import 'package:tdc_coach_user/presentation/widgets/body_page.dart';
 
 class PaymentTicketController extends GetxController {
@@ -41,8 +41,6 @@ class PaymentTicketController extends GetxController {
       required String userPhone,
       required String tripId,
       required String seatId,
-      required String seatName,
-      required int seatCode,
       required int price,
       required String departureDate,
       required String departureTime,
@@ -53,25 +51,7 @@ class PaymentTicketController extends GetxController {
       String bookingId =
           'booking${_database.child('bookings').child(tripId).push().key}';
       int updateWallet = wallet - price;
-      final booking = Booking(
-        id: bookingId,
-        userId: userId,
-        carId: carId,
-        userName: userName,
-        userPhone: userPhone,
-        tripId: tripId,
-        seatId: seatId,
-        seatName: seatName,
-        seatCode: seatCode,
-        price: price,
-        departureLocation: departure.value,
-        destinationLocation: destination.value,
-        departurePoint: departPoint.value,
-        departureDate: departureDate,
-        departureTime: departureTime,
-        status: status,
-        createdAt: dateNow,
-      );
+
       //check trip id
       final DataSnapshot snapshot = await _database
           .child('bookings')
@@ -79,13 +59,25 @@ class PaymentTicketController extends GetxController {
           .child(tripId)
           .child('status')
           .get();
-      final DataSnapshot snapshotSeatID = await _database
+      final DataSnapshot snapshotSeatStatus = await _database
           .child('seats')
           .child(carId)
           .child(seatId)
           .child('status')
           .get();
-      if (snapshotSeatID.value == 1) {
+      final DataSnapshot snapshotSeatCode = await _database
+          .child('seats')
+          .child(carId)
+          .child(seatId)
+          .child('code')
+          .get();
+      final DataSnapshot snapshotSeatName = await _database
+          .child('seats')
+          .child(carId)
+          .child(seatId)
+          .child('name')
+          .get();
+      if (snapshotSeatStatus.value == 1) {
         EasyLoading.dismiss();
         EasyLoading.showError('Ghế này đã được đặt');
         return;
@@ -96,16 +88,50 @@ class PaymentTicketController extends GetxController {
         return;
       }
       //add booking
+      final seat = Seat(
+        id: seatId,
+        name: snapshotSeatName.value.toString(),
+        code: int.parse(snapshotSeatCode.value.toString()),
+        status: int.parse(snapshotSeatStatus.value.toString()),
+        userID: userId,
+        userPhone: userPhone,
+      );
+      final booking = Booking(
+        id: bookingId,
+        userId: userId,
+        carId: carId,
+        userName: userName,
+        userPhone: userPhone,
+        tripId: tripId,
+        seatId: seatId,
+        price: price,
+        departureLocation: departure.value,
+        destinationLocation: destination.value,
+        departurePoint: departPoint.value,
+        departureDate: departureDate,
+        departureTime: departureTime,
+        status: status,
+        createdAt: dateNow,
+        seat: seat,
+      );
       await _database
           .child('bookings')
           .child(userId)
           .child(tripId)
           .set(booking.toJson());
+
+      await _database
+          .child('bookings')
+          .child(userId)
+          .child(tripId)
+          .child('seat')
+          .set(seat.toJson());
       //update wallet
       await _database
           .child(FireBaseConstant.customers)
           .child(userId)
           .update({'wallet': updateWallet});
+
       //update seat
       await _database.child('seats').child(carId).child(seatId).update({
         'status': 1,
