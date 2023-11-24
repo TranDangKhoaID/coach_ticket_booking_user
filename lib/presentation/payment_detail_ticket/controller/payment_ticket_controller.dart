@@ -41,8 +41,6 @@ class PaymentTicketController extends GetxController {
       required String userPhone,
       required String tripId,
       required String seatId,
-      required String seatName,
-      required int seatCode,
       required int price,
       required String departureDate,
       required String departureTime,

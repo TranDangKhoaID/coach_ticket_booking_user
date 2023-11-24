@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/domain/model/booking.dart';
+import 'package:tdc_coach_user/presentation/top_up/controller/top_up_controller.dart';
 
 class DetailTicket extends StatefulWidget {
   final Booking booking;
@@ -345,7 +346,7 @@ class _DetailTicketState extends State<DetailTicket> {
                               ),
                               const Spacer(),
                               Text(
-                                widget.booking.price.toString(),
+                                '${TopUpController.instance.formatCurrency(widget.booking.price.toString())} đ',
                                 style: const TextStyle(
                                   fontSize: 17,
                                 ),
@@ -371,7 +372,7 @@ class _DetailTicketState extends State<DetailTicket> {
                               )),
                               const Spacer(),
                               Text(
-                                widget.booking.price.toString(),
+                                '${TopUpController.instance.formatCurrency(widget.booking.price.toString())} đ',
                                 style: const TextStyle(
                                   fontSize: 17,
                                 ),
