@@ -5,15 +5,12 @@ class InForUserWidget extends StatelessWidget {
   final String fullName;
   final String email;
   final String phone;
-  final void Function()? onSignOut;
-  final void Function()? onUpdate;
+
   const InForUserWidget({
     super.key,
     required this.fullName,
     required this.email,
     required this.phone,
-    required this.onSignOut,
-    required this.onUpdate,
   });
 
   @override
@@ -81,57 +78,8 @@ class InForUserWidget extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 50,
+          height: 20,
         ),
-        GestureDetector(
-          onTap: onUpdate,
-          child: Container(
-            width: double.infinity,
-            height: 50,
-            decoration: BoxDecoration(
-              color: AppColor.primary,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Center(
-              child: Text(
-                'Cập nhật thông tin',
-                style: TextStyle(
-                  color: AppColor.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        GestureDetector(
-          onTap: onSignOut,
-          child: Container(
-            width: double.infinity,
-            height: 50,
-            decoration: BoxDecoration(
-              color: AppColor.white,
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(
-                color: AppColor.primary,
-                width: 1,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                'Đăng xuất',
-                style: TextStyle(
-                  color: AppColor.primary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        )
       ],
     );
   }
