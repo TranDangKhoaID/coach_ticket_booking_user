@@ -5,12 +5,16 @@ class InForUserWidget extends StatelessWidget {
   final String fullName;
   final String email;
   final String phone;
+  final void Function()? onTapUpdateFullName;
+  final void Function()? onTapUpdatePhone;
 
   const InForUserWidget({
     super.key,
     required this.fullName,
     required this.email,
     required this.phone,
+    required this.onTapUpdateFullName,
+    required this.onTapUpdatePhone,
   });
 
   @override
@@ -32,7 +36,14 @@ class InForUserWidget extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
               ),
-            )
+            ),
+            IconButton(
+              onPressed: onTapUpdateFullName,
+              icon: Icon(
+                Icons.settings,
+                color: AppColor.primary,
+              ),
+            ),
           ],
         ),
         const SizedBox(
@@ -53,7 +64,14 @@ class InForUserWidget extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
               ),
-            )
+            ),
+            IconButton(
+              onPressed: onTapUpdatePhone,
+              icon: Icon(
+                Icons.settings,
+                color: AppColor.primary,
+              ),
+            ),
           ],
         ),
         SizedBox(

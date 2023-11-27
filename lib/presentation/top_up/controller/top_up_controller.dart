@@ -41,7 +41,6 @@ class TopUpController extends GetxController {
       );
       return;
     }
-
     if (money.length > 10 || money.length < 5) {
       EasyLoading.showError('Số từ 10.000 đến 100 triệu');
       return;

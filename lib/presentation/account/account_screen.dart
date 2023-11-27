@@ -11,6 +11,7 @@ import 'package:tdc_coach_user/presentation/account/component/account_signout_wi
 import 'package:tdc_coach_user/presentation/account/component/account_top_up_widget.dart';
 import 'package:tdc_coach_user/presentation/account/component/account_update_widget.dart';
 import 'package:tdc_coach_user/presentation/account/component/infor_user_widget.dart';
+import 'package:tdc_coach_user/presentation/account/controlller/account_controller.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -24,6 +25,8 @@ class _AccountScreenState extends State<AccountScreen> {
   final DatabaseReference database = FirebaseDatabase.instance.ref();
   DatabaseReference? dbCustomer;
   String? userId;
+  final _controllerFullName = TextEditingController();
+  final _controllerPhone = TextEditingController();
   //đăng xuất
   void signOut(BuildContext context) {
     AppPreferences.instance.logout();
@@ -76,6 +79,158 @@ class _AccountScreenState extends State<AccountScreen> {
                       fullName: fullName,
                       email: email,
                       phone: phone,
+                      onTapUpdateFullName: () {
+                        _controllerFullName.text = fullName;
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nhập họ tên',
+                                    style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextField(
+                                    controller: _controllerFullName,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 16,
+                                        horizontal: 12,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      DialogHelper.showConfirmDialog(
+                                        context: context,
+                                        onPressConfirm: () {
+                                          AccountController.instance
+                                              .updateFullName(
+                                            userID: id,
+                                            fullName:
+                                                _controllerFullName.text.trim(),
+                                          );
+                                        },
+                                        message: 'Xác nhận đổi tên?',
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        color: AppColor.primary,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Xác nhận',
+                                        style: TextStyle(
+                                          color: AppColor.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      onTapUpdatePhone: () {
+                        _controllerPhone.text = phone;
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nhập số điện thoại',
+                                    style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextField(
+                                    keyboardType: TextInputType.number,
+                                    controller: _controllerPhone,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical: 16,
+                                        horizontal: 12,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      DialogHelper.showConfirmDialog(
+                                        context: context,
+                                        onPressConfirm: () {
+                                          AccountController.instance
+                                              .updatePhone(
+                                            userID: id,
+                                            phone: _controllerPhone.text.trim(),
+                                          );
+                                        },
+                                        message: 'Xác nhận đổi tên?',
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        color: AppColor.primary,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Xác nhận',
+                                        style: TextStyle(
+                                          color: AppColor.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                     AccountTopUpWidget(
                       onTap: () {
@@ -85,9 +240,9 @@ class _AccountScreenState extends State<AccountScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    AccountUpdateWidget(
-                      onUpdate: () {},
-                    ),
+                    // AccountUpdateWidget(
+                    //   onUpdate: () {},
+                    // ),
                     const SizedBox(
                       height: 15,
                     ),

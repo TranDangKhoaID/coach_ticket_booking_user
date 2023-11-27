@@ -5,6 +5,7 @@ import 'package:tdc_coach_user/app/app.dart';
 import 'package:tdc_coach_user/app/helpers/app_loading.dart';
 import 'package:tdc_coach_user/app/storage/app_shared.dart';
 import 'package:tdc_coach_user/firebase_options.dart';
+import 'package:tdc_coach_user/presentation/account/controlller/account_controller.dart';
 import 'package:tdc_coach_user/presentation/home_page/controller/home_page_controller.dart';
 import 'package:tdc_coach_user/presentation/list_trip/controller/list_trip_controller.dart';
 import 'package:tdc_coach_user/presentation/login/cubit/login_controller.dart';
@@ -29,5 +30,6 @@ void main() async {
   Get.put(PaymentTicketController());
   Get.put(TicketController());
   Get.put(TopUpController());
+  Get.put(AccountController());
   runApp(const MyApp());
 }

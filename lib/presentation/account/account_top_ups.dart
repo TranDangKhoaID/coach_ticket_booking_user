@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:tdc_coach_user/presentation/account/component/account_top_up_ite
 
 class AccountTopUps extends StatelessWidget {
   AccountTopUps({super.key});
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final Query db = FirebaseDatabase.instance.ref().child('top_ups');
 
   @override
@@ -20,6 +22,11 @@ class AccountTopUps extends StatelessWidget {
         backgroundColor: AppColor.primary,
       ),
       body: FirebaseAnimatedList(
+        defaultChild: const Center(
+          child: CircularProgressIndicator(
+            color: AppColor.primary,
+          ),
+        ),
         query: db,
         itemBuilder: (context, snapshot, animation, index) {
           String id = snapshot.child('id').value.toString();
@@ -46,14 +53,19 @@ class AccountTopUps extends StatelessWidget {
             creatAt: creatAt,
             status: status,
           );
-          return AccountTopUpItem(
+          if (topUp.idUser.endsWith(auth.currentUser!.uid)) {
+            return AccountTopUpItem(
               onTap: () {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) => PaymentItem(topUp: topUp),
                 );
               },
-              topUp: topUp);
+              topUp: topUp,
+            );
+          } else {
+            return Container();
+          }
         },
       ),
     );

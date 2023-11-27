@@ -17,18 +17,18 @@ class AccountSignoutWidget extends StatelessWidget {
         width: double.infinity,
         height: 50,
         decoration: BoxDecoration(
-          color: AppColor.white,
+          color: AppColor.primary,
           borderRadius: BorderRadius.circular(25),
-          border: Border.all(
-            color: AppColor.primary,
-            width: 1,
-          ),
+          // border: Border.all(
+          //   color: AppColor.primary,
+          //   width: 1,
+          // ),
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             'Đăng xuất',
             style: TextStyle(
-              color: AppColor.primary,
+              color: AppColor.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),

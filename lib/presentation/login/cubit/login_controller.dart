@@ -43,7 +43,6 @@ class LoginController extends GetxController {
             String email =
                 customerData[FireBaseConstant.emailCustomer] as String;
             int wallet = customerData[FireBaseConstant.walletCustomer] as int;
-
             // Lưu thông tin vào local
             AppPreferences.instance.saveFullName(fullName);
             AppPreferences.instance.savePhone(phone);

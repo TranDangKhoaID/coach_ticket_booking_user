@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tdc_coach_user/app/manager/color_manager.dart';
 import 'package:tdc_coach_user/domain/model/seat.dart';
-import 'package:tdc_coach_user/presentation/select_seat/controller/select_seat_controller.dart';
 
-// ignore: must_be_immutable
 class GeneralSeatComponet extends StatefulWidget {
   final Seat seat;
-  void Function()? onTap;
+  final void Function()? onTap;
 
   GeneralSeatComponet({
     super.key,
@@ -19,27 +17,35 @@ class GeneralSeatComponet extends StatefulWidget {
 }
 
 class _GeneralSeatComponetState extends State<GeneralSeatComponet> {
-  Color? color;
+  bool isSelected = false;
   @override
   void initState() {
     super.initState();
-    if (widget.seat.status == 0) {
-      color = AppColor.trong;
-    } else {
-      color = AppColor.daMua;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: () {
+        setState(() {
+          if (widget.seat.status == 0) {
+            isSelected = true;
+          } else {
+            return;
+          }
+        });
+        widget.onTap?.call();
+      },
       child: Container(
         margin: const EdgeInsets.all(16),
         height: 48,
         width: 48,
         decoration: BoxDecoration(
-          color: color,
+          color: isSelected
+              ? AppColor.dangChon // Đổi màu khi ghế được chọn
+              : widget.seat.status == 0
+                  ? AppColor.trong
+                  : AppColor.daMua,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
